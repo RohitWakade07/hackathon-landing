@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Problem Statements | HackNova 2025</title>
+            <link rel="stylesheet" href="style.css"/>
+            <style>
+                html, body {
+                    font-size: 15px;
+                }
+            </style>
+        <!-- Bootstrap 4 CDN -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+            .pos-f-t { margin-bottom: 0; }
+            .navbar-dark { background: #222 !important; }
+            .bg-dark { background: #222 !important; }
+            .navbar-toggler { border-color: #fff; }
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+            }
+            .drawer-links a {
+                color: #08CB00 !important;
+                font-weight: 600;
+                font-size: 1.1em;
+                letter-spacing: 0.5px;
+                transition: color 0.2s, background 0.2s;
+                border-radius: 6px;
+                padding: 6px 12px;
+                text-decoration: none;
+                display: block;
+            }
+            .drawer-links a:hover {
+                color: #fff !important;
+                background: #08CB00 !important;
+            }
+            .drawer-title {
+                color: #08CB00 !important;
+                font-weight: 700;
+                font-size: 1.3em;
+            }
+        </style>
+</head>
+<body>
+       <nav class="navbar navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4">
+                    <h4 class="drawer-title">HackNova 2025</h4>
+                    <div class="mt-3 drawer-links">
+                        <a href="index.html" class="mb-2">Home</a>
+                        <a href="#about" class="mb-2">About</a>
+                        <a href="FAQ.html" class="mb-2">FAQ</a>
+                        <a href="problems.html" class="mb-2">Problems</a>
+                        <a href="#contact" class="mb-2">Contact Us</a>
+                        <a href="team.html" class="mb-2">Organizers</a>
+                    </div>
+                </div>
+            </div>
+
+        <canvas id="bgCanvas"></canvas>
+    <section id="problems">
+        <div class="tracks-select" style="display:flex;gap:32px;justify-content:center;margin:32px 0 40px 0;">
+            <button class="btn btn-ghost" onclick="document.getElementById('track1').scrollIntoView({behavior:'smooth'})">Track 1: Next-Gen Agri AI & Data Science</button>
+            <button class="btn btn-ghost" onclick="document.getElementById('track2').scrollIntoView({behavior:'smooth'})">Track 2: Web & AI Applications</button>
+        </div>
+        <div id="track1">
+                        <h2 class="section-heading">Track 1: Next-Gen Agri AI & Data Science</h2>
+                        <!-- Each problem statement is now in its own container, no nested blur-cards -->
+                        <div class="blur-card">
+                                <div style="display:flex;align-items:center;justify-content:space-between;">
+                                    <h3 style="margin-bottom:0;">AI-Driven Leaf Health Assessment, Damage Quantification, and Leaf Area Index Calculation</h3>
+                                    <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#track1prob1" aria-expanded="false" aria-controls="track1prob1">Details</button>
+                                </div>
+                                <div class="collapse" id="track1prob1">
+                                    <div class="card card-body mt-2">
+                                        <div class="problem-desc">
+                                                <strong>Description:</strong> Develop a lightweight AI system that analyses crop leaf images to identify multiple possible diseases and pest damages using pre-trained deep learning models. The system should also estimate the percentage of leaf area affected by each detected condition using segmentation techniques, along with calculating the Leaf Area Index (LAI) to provide an additional quantitative measure of plant canopy condition.
+                                        </div>
+                                        <div class="problem-outcomes">
+                                                <strong>Expected Outcomes:</strong>
+                                                <ul>
+                                                        <li>Upload a leaf image from any crop.</li>
+                                                        <li>Receive a report listing all detected diseases/pest damages (multi-label classification).</li>
+                                                        <li>View the scale of damage for each detected condition, represented both as a descriptive category (e.g., low, moderate, severe) and as an approximate percentage of leaf area affected.</li>
+                                                        <li>Calculate the Leaf Area Index (LAI) from the uploaded image.</li>
+                                                        <li>See an overlaid segmentation mask highlighting the affected regions.</li>
+                                                </ul>
+                                        </div>
+                                        <div class="dataset-links">
+                                                <strong>Recommended Datasets:</strong>
+                                                <ul>
+                                                        <li><b>PlantDoc Dataset</b> (<a href="https://github.com/pratikkayal/PlantDoc-Dataset" target="_blank">GitHub</a>): 2,598 images, 13 plant species, 30 classes. Designed for Indian conditions.</li>
+                                                        <li><b>PlantVillage Dataset</b> (<a href="https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset" target="_blank">Kaggle</a>): 54,000+ images, 14 crop species, 26 diseases. Clean backgrounds, ideal for segmentation.</li>
+                                                        <li><b>CCMT Dataset</b> (<a href="https://doi.org/10.17632/bwh3zbpkpv.1" target="_blank">Mendeley Data</a>): 100,000+ images, 22 disease classes, 4 major crops. Great for robust model training.</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="blur-card">
+                                <div style="display:flex;align-items:center;justify-content:space-between;">
+                                    <h3 style="margin-bottom:0;">AI-Assisted Flag Leaf Measurement and Yield Prediction</h3>
+                                    <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#track1prob2" aria-expanded="false" aria-controls="track1prob2">Details</button>
+                                </div>
+                                <div class="collapse" id="track1prob2">
+                                    <div class="card card-body mt-2">
+                                        <div class="problem-desc">
+                                                <strong>Description:</strong> Develop a machine learning pipeline that processes UAV imagery of crop fields to detect and measure the morphological dimensions of the flag leaf. Using these measurements, the system should apply a regression model to predict the final grain yield for the corresponding crop.
+                                        </div>
+                                        <div class="problem-outcomes">
+                                                <strong>Expected Outcomes:</strong>
+                                                <ul>
+                                                        <li>Upload a UAV image of a crop field.</li>
+                                                        <li>Automatically detect flag leaves in the image using a pre-trained model.</li>
+                                                        <li>Measure the length, width, and area of each detected flag leaf (converted from pixels to centimeters using UAV image metadata).</li>
+                                                        <li>Predict the final grain yield for the crop using a regression model trained on provided data.</li>
+                                                        <li>Display visual overlays showing detected leaves and measurement annotations.</li>
+                                                </ul>
+                                        </div>
+                                        <div class="dataset-links">
+                                                <strong>Recommended Datasets:</strong>
+                                                <ul>
+                                                        <li><b>Global Wheat Head Dataset (GWHD)</b> (<a href="https://www.kaggle.com/datasets/landrykezebou/global-wheat-detection" target="_blank">Kaggle</a>): 190,000+ labeled wheat heads, diverse conditions. Premier for object detection.</li>
+                                                        <li><b>Plant Phenotyping Datasets</b> (<a href="https://www.plant-phenotyping.org/datasets-home" target="_blank">Platform</a>): UAV imagery, trait measurements, various crops. Explore for leaf/yield data.</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="blur-card">
+                                <div style="display:flex;align-items:center;justify-content:space-between;">
+                                    <h3 style="margin-bottom:0;">AI-Powered Automated Quantification of Symbiotic Root Nodules</h3>
+                                    <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#track1prob3" aria-expanded="false" aria-controls="track1prob3">Details</button>
+                                </div>
+                                <div class="collapse" id="track1prob3">
+                                    <div class="card card-body mt-2">
+                                        <div class="problem-desc">
+                                                <strong>Description:</strong> Develop a computer vision application that analyses an image of an excavated legume root system to automatically detect, count, and measure symbiotic root nodules. This will replace the labour-intensive manual process currently used in soil health research.
+                                        </div>
+                                        <div class="problem-outcomes">
+                                                <strong>Expected Outcomes:</strong>
+                                                <ul>
+                                                        <li>Upload an image of an excavated legume root system.</li>
+                                                        <li>Automatically detect and count all visible root nodules using a pre-trained detection/segmentation model.</li>
+                                                        <li>Measure the size distribution of detected nodules (in mm or cm, using scale reference in the image).</li>
+                                                        <li>Generate a Nodulation Score based on total nodule count and size distribution.</li>
+                                                        <li>Display visual overlays marking detected nodules and their measurements.</li>
+                                                </ul>
+                                        </div>
+                                        <div class="dataset-links">
+                                                <strong>Recommended Datasets:</strong>
+                                                <ul>
+                                                        <li><b>Minirhizotron Images of Soybean Roots and Nodules</b> (<a href="https://datadryad.org/stash/dataset/doi:10.5061/dryad.6t1g1jx2f" target="_blank">Dryad</a>): 2,700+ images, controlled environment, automated analysis pipelines.</li>
+                                                        <li><b>Legume Root Nodule Image Dataset</b> (<a href="https://data.mendeley.com/datasets/brv522s3g9/1" target="_blank">Mendeley Data</a>): 1,000 images, various legumes, nodule counting/classification.</li>
+                                                        <li><b>Global Root Image Dataset (GRID)</b> (<a href="https://zenodo.org/record/3936361" target="_blank">Zenodo</a>): 25,000+ images, 125 plant species, root segmentation/measurement.</li>
+                                                        <li><b>UNL Plant Phenotyping Datasets</b> (<a href="https://plantvision.unl.edu/unl-plant-phenotyping-datasets" target="_blank">UNL</a>): Maize/sorghum root phenotyping, transferable techniques.</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="blur-card">
+                                <div style="display:flex;align-items:center;justify-content:space-between;">
+                                    <h3 style="margin-bottom:0;">High-Throughput Seed Damage and Pest Infestation Analysis</h3>
+                                    <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#track1prob4" aria-expanded="false" aria-controls="track1prob4">Details</button>
+                                </div>
+                                <div class="collapse" id="track1prob4">
+                                    <div class="card card-body mt-2">
+                                        <div class="problem-desc">
+                                                <strong>Description:</strong> Build an AI-driven imaging system capable of batch-processing seed samples to automatically detect and quantify various forms of damage, such as cracks, discoloration, mold, and pest-related defects (including counting insect eggs or holes on individual seeds).
+                                        </div>
+                                        <div class="problem-outcomes">
+                                                <strong>Expected Outcomes:</strong>
+                                                <ul>
+                                                        <li>Upload multiple seed images at once.</li>
+                                                        <li>Damage classification for each seed (e.g., healthy, cracked, discolored, mold-infected).</li>
+                                                        <li>Pest infestation indicators, including egg/larvae count or visible holes.</li>
+                                                        <li>Damage Severity Scale for each seed (e.g., 0–No Damage, 1–Mild, 2–Moderate, 3–Severe) based on the percentage of seed surface affected.</li>
+                                                        <li>Quantitative summary for the entire batch: percentage of damaged seeds per category, average pest count per seed, size distribution of damage.</li>
+                                                        <li>Exportable data table and summary charts for further research or quality control.</li>
+                                                </ul>
+                                        </div>
+                                        <div class="dataset-links">
+                                                <strong>Recommended Datasets:</strong>
+                                                <ul>
+                                                        <li><b>Damaged vs. Healthy Seeds Dataset</b> (<a href="https://www.kaggle.com/datasets/sinanislek/damaged-and-healthy-seeds" target="_blank">Kaggle</a>): 3,600+ images, binary classification.</li>
+                                                        <li><b>Seed Image Dataset</b> (<a href="https://www.kaggle.com/datasets/kausthubhking/seed-image-dataset" target="_blank">Kaggle</a>): 4,500+ images, 14 plant species, seed classification.</li>
+                                                        <li><b>Global Wheat Head Dataset</b> (<a href="https://www.kaggle.com/datasets/landrykezebou/global-wheat-detection" target="_blank">Kaggle</a>): High-res images, feature detection (discoloration, mold, etc.).</li>
+                                                        <li><b>Insect Pest Image Dataset</b> (<a href="https://www.kaggle.com/datasets/srinivas1178/insect-pest-image-dataset" target="_blank">Kaggle</a>): Thousands of images, pest/egg detection for seed health.</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="blur-card">
+                                <div style="display:flex;align-items:center;justify-content:space-between;">
+                                    <h3 style="margin-bottom:0;">AgriCurate: AI-Powered Dataset Quality and Curation Tool</h3>
+                                    <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#track1prob5" aria-expanded="false" aria-controls="track1prob5">Details</button>
+                                </div>
+                                <div class="collapse" id="track1prob5">
+                                    <div class="card card-body mt-2">
+                                        <div class="problem-desc">
+                                                <strong>Description:</strong> Build an AI-assisted data curation platform that can process agricultural datasets (images, sensor data, or hybrid datasets) in bulk to automatically evaluate and enhance dataset quality.
+                                        </div>
+                                        <div class="problem-outcomes">
+                                                <strong>Expected Outcomes:</strong>
+                                                <ul>
+                                                        <li>Upload complete datasets or batch files.</li>
+                                                        <li>Curation Metrics for Each Dataset: completeness, timeliness, precision, provenance, plausibility.</li>
+                                                        <li>Data Quality Scorecard: a single score summarizing overall dataset health.</li>
+                                                        <li>Anomaly Detection Report: highlights of mislabeled data, extreme outliers, or duplicates.</li>
+                                                        <li>Batch Summary: percentage of entries failing quality checks, distribution of errors across categories, recommendations for corrective actions.</li>
+                                                        <li>Exportable Outputs: PDF report with visual charts, detailed data tables, and issue tracking logs for future audits.</li>
+                                                </ul>
+                                        </div>
+                                        <div class="dataset-links">
+                                                <strong>Recommended Datasets:</strong>
+                                                <ul>
+                                                        <li><b>PlantDoc Dataset</b> (<a href="https://github.com/pratikkayal/PlantDoc-Dataset" target="_blank">GitHub</a>)</li>
+                                                        <li><b>PlantVillage Dataset</b> (<a href="https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset" target="_blank">Kaggle</a>)</li>
+                                                        <li><b>CCMT Dataset</b> (<a href="https://doi.org/10.17632/bwh3zbpkpv.1" target="_blank">Mendeley Data</a>)</li>
+                                                        <li><b>Global Wheat Head Dataset</b> (<a href="https://www.kaggle.com/datasets/landrykezebou/global-wheat-detection" target="_blank">Kaggle</a>)</li>
+                                                        <li><b>Plant Phenotyping Datasets</b> (<a href="https://www.plant-phenotyping.org/datasets-home" target="_blank">Platform</a>)</li>
+                                                        <li><b>Minirhizotron Images of Soybean Roots and Nodules</b> (<a href="https://datadryad.org/stash/dataset/doi:10.5061/dryad.6t1g1jx2f" target="_blank">Dryad</a>)</li>
+                                                        <li><b>Legume Root Nodule Image Dataset</b> (<a href="https://data.mendeley.com/datasets/brv522s3g9/1" target="_blank">Mendeley Data</a>)</li>
+                                                        <li><b>Global Root Image Dataset (GRID)</b> (<a href="https://zenodo.org/record/3936361" target="_blank">Zenodo</a>)</li>
+                                                        <li><b>UNL Plant Phenotyping Datasets</b> (<a href="https://plantvision.unl.edu/unl-plant-phenotyping-datasets" target="_blank">UNL</a>)</li>
+                                                        <li><b>Damaged vs. Healthy Seeds Dataset</b> (<a href="https://www.kaggle.com/datasets/sinanislek/damaged-and-healthy-seeds" target="_blank">Kaggle</a>)</li>
+                                                        <li><b>Seed Image Dataset</b> (<a href="https://www.kaggle.com/datasets/kausthubhking/seed-image-dataset" target="_blank">Kaggle</a>)</li>
+                                                        <li><b>Insect Pest Image Dataset</b> (<a href="https://www.kaggle.com/datasets/srinivas1178/insect-pest-image-dataset" target="_blank">Kaggle</a>)</li>
+                                                </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+        </div>
+        
+                                <div id="track2">
+            <h2 class="section-heading">Track 2: Web & AI Applications</h2>
+            <div class="blur-card">
+                <h3>Track 2 Problem Statement 1: Farmer Assistant</h3>
+                <div class="problem-desc">
+                    <strong>Description:</strong> Build a RAG-based query app over agronomy docs with multi-language support to assist farmers in real-time.
+                </div>
+                <div class="problem-outcomes">
+                    <strong>Expected Outcomes:</strong>
+                    <ul>
+                        <li>Multi-language support for farmer queries.</li>
+                        <li>Real-time answers from agronomy documents.</li>
+                        <li>Easy-to-use web/mobile interface.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="blur-card">
+                <h3>Track 2 Problem Statement 2: Supply Chain Lens</h3>
+                <div class="problem-desc">
+                    <strong>Description:</strong> Create an anomaly detection dashboard for produce logistics and storage, improving supply chain reliability.
+                </div>
+                <div class="problem-outcomes">
+                    <strong>Expected Outcomes:</strong>
+                    <ul>
+                        <li>Dashboard for anomaly detection in logistics.</li>
+                        <li>Alerts for storage and transport issues.</li>
+                        <li>Data visualization and reporting tools.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="blur-card">
+                <h3>Track 2 Problem Statement 3: Field Notes Copilot</h3>
+                <div class="problem-desc">
+                    <strong>Description:</strong> Develop a voice-to-structured-notes tool with entity extraction and summaries for field workers.
+                </div>
+                <div class="problem-outcomes">
+                    <strong>Expected Outcomes:</strong>
+                    <ul>
+                        <li>Voice input converted to structured notes.</li>
+                        <li>Entity extraction and summary generation.</li>
+                        <li>Mobile-friendly interface for field use.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="blur-card">
+                <h3>Track 2 Problem Statement 4: Advisory Router</h3>
+                <div class="problem-desc">
+                    <strong>Description:</strong> Build a rule- and ML-driven triage system to route farmer queries to appropriate experts.
+                </div>
+                <div class="problem-outcomes">
+                    <strong>Expected Outcomes:</strong>
+                    <ul>
+                        <li>Automated triage of farmer queries.</li>
+                        <li>Routing to domain experts based on query type.</li>
+                        <li>Integration with expert contact systems.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

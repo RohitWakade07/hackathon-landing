@@ -3,14 +3,68 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>HackNova 2025</title>
+    <title>VIT Pune Hackathon 2025</title>
     <link rel="stylesheet" href="style.css"/>
+          
+            <!-- Bootstrap 4 CDN -->
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+            <style>
+                .pos-f-t { margin-bottom: 0; }
+                .navbar-dark { background: #222 !important; }
+                .bg-dark { background: #222 !important; }
+                .navbar-toggler { border-color: #fff; }
+                .navbar-toggler-icon {
+                    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+                }
+                .drawer-links a {
+                    color: #08CB00 !important;
+                    font-weight: 600;
+                    font-size: 1.1em;
+                    letter-spacing: 0.5px;
+                    transition: color 0.2s, background 0.2s;
+                    border-radius: 6px;
+                    padding: 6px 12px;
+                    text-decoration: none;
+                    display: block;
+                }
+                .drawer-links a:hover {
+                    color: #fff !important;
+                    background: #08CB00 !important;
+                }
+                .drawer-title {
+                    color: #08CB00 !important;
+                    font-weight: 700;
+                    font-size: 1.3em;
+                }
+            </style>
 </head>
 <body>
+        <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4">
+                    <h4 class="drawer-title">Hackathon 2025</h4>
+                                        <div class="mt-3 drawer-links">
+                        <a href="index.html" class="mb-2">Home</a>
+                        <a href="#about" class="mb-2">About</a>
+                        <a href="FAQ.html" class="mb-2">FAQ</a>
+                        <a href="problems.html" class="mb-2">Problems</a>
+                        <a href="#contact">Contact Us</a>
+                        <a href="team.html">Organizers</a>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
     <canvas id="bgCanvas"></canvas>
 
     <header class="hero">
-        <h1 class="title">HackNova 2025</h1>
+        <h1 class="title">VIT Pune Hackathon 2025</h1>
         <p class="subtitle">In association with <strong>Agharkar Research Institute (ARI)</strong></p>
         <p class="date">Starts 29 August 2025 • 36 hours • VIT Pune Campus</p>
         <div id="countdown" class="countdown" aria-live="polite">
@@ -20,13 +74,15 @@
             <div><span id="cd-secs">--</span><label>Seconds</label></div>
         </div>
         <p class="tagline">Innovate. Integrate. Inspire.</p>
-        <a href="#register" class="btn">Register Now</a>
+                <div class="register-container">
+                    <a href="#register" class="btn">Register Now</a>
+                </div>
     </header>
 
     <section id="about">
         <h2 class="section-heading">About the Hackathon</h2>
         <p>
-            HackNova 2025 brings together students, researchers, and professionals to tackle
+            VIT Pune Hackathon 2025 brings together students, researchers, and professionals to tackle
             real-world challenges with <strong>Artificial Intelligence</strong> and modern engineering.
             In collaboration with <strong>ARI</strong>, this edition features two focused tracks—designed
             to meet participants where they are and help them build impactful solutions.
@@ -42,7 +98,7 @@
         <h2 class="section-heading">Tracks</h2>
         <div class="tracks-grid">
             <div class="track-card">
-                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80" alt="Agriculture field sunrise"/>
+                <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1400&auto=format&fit=crop" alt="Data science visualization and analytics"/>
                 <div class="track-content">
                     <h3>Track 1: Implementing AIML in Agriculture</h3>
                     <p class="badge">Specialized for Data Science students</p>
@@ -56,14 +112,14 @@
                         <li>Recommended stack: Python, pandas, scikit-learn, PyTorch/TensorFlow, MLflow</li>
                         <li>Deliverables: Model notebook/report, metrics dashboard, and insights brief</li>
                     </ul>
-                    <a class="btn btn-ghost" href="#problems-track1">Click here</a>
+                    <a class="btn btn-ghost" href="problems.html">Click here</a>
                 </div>
             </div>
 
             <div class="track-card">
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80" alt="AI and web development concept"/>
+                <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1400&auto=format&fit=crop" alt="Web application with AI integration"/>
                 <div class="track-content">
-                    <h3>Track 2: Web & AI Applications</h3>
+                    <h3>Track 2A: Web & AI Applications</h3>
                     <p>
                         Build end-to-end applications that integrate AI to deliver tangible user value. From
                         intelligent front-ends to robust back-ends and APIs, demonstrate how AI elevates user
@@ -73,17 +129,17 @@
                         <li>Recommended stack: React/Vue, Node/Flask/FastAPI, vector DBs, LLM tooling</li>
                         <li>Deliverables: Deployed demo, architecture overview, and usage guide</li>
                     </ul>
-                    <a class="btn btn-ghost" href="#problems-track2">Click here</a>
+                    <a class="btn btn-ghost" href="problems.html">Click here</a>
                 </div>
             </div>
         </div>
         <p class="note">Note: <strong>Track 1</strong> is specialized for <strong>Data Science</strong> students. Teams may include members from other branches.</p>
     </section>
 
-    <section id="HackNova">
-        <h2 class="section-heading">About HackNova</h2>
+    <section id="agrithon">
+        <h2 class="section-heading">About Agrithon</h2>
         <p>
-            HackNova is our agriculture-focused innovation sprint in partnership with ARI, aimed at advancing
+            Agrithon is our agriculture-focused innovation sprint in partnership with ARI, aimed at advancing
             sustainable farming through AI and data-driven solutions. From soil health and crop monitoring to
             supply-chain optimization, teams will work on high-impact challenges aligned with real field needs.
         </p>
@@ -95,41 +151,15 @@
     </section>
 
     <section id="problems">
-        <h2 class="section-heading">Problem Statements</h2>
-        <div class="tracks-grid problems-grid">
-            <div class="track-card" id="problems-track1">
-                <div class="track-content">
-                    <h3>Track 1 : Implementing AIML in Agriculture</h3>
-                    <ol class="sub-points">
-                        <li>Crop Yield Forecasting using historical weather and soil parameters with uncertainty bounds.</li>
-                        <li>Multimodal Plant Disease Classification from leaf images and basic field metadata.</li>
-                        <li>Soil Nutrient Recommendation: Predict optimal fertilizer mix per plot to minimize runoff.</li>
-                        <li>Smart Irrigation Policy: Time-series demand prediction and schedule optimization.</li>
-                    </ol>
-                    <p class="note">Provide a brief methodology, model selection rationale, and evaluation protocol.</p>
-                </div>
-            </div>
-            <div class="track-card" id="problems-track2">
-                <div class="track-content">
-                    <h3>Track 2A: Web & AI Applications</h3>
-                    <ol class="sub-points">
-                        <li>Farmer Assistant: RAG-based query app over agronomy docs with multi-language support.</li>
-                        <li>Supply Chain Lens: Anomaly detection dashboard for produce logistics and storage.</li>
-                        <li>Field Notes Copilot: Voice-to-structured-notes with entity extraction and summaries.</li>
-                        <li>Advisory Router: Rule- and ML-driven triage of farmer queries to appropriate experts.</li>
-                    </ol>
-                    <p class="note">Focus on UX, reliability, and an explainable inference path for critical actions.</p>
-                </div>
-            </div>
-        </div>
+    <!-- Problem statements moved to problems.html -->
     </section>
 
     <section id="prizes">
         <h2 class="section-heading">Prizes & Benefits</h2>
         <ul>
-            <li>🏆 Cash prizes worth ₹10000</li>
+            <li>🏆 Cash prizes worth ₹1,00,000+</li>
             <li>📜 Certificates & Swags for all participants</li>
-            <li>💼 Networking opportunities with industry experts</li>
+            <li>💼 Networking opportunities with industry & Research experts </li>
             <li>🚀 Incubation & funding opportunities for top ideas</li>
         </ul>
     </section>
@@ -174,18 +204,19 @@
                     <label>Academic Year</label>
                     <select name="year">
                         <option value="">Select</option>
-                        
+                        <option>FE</option>
                         <option>SE</option>
                         <option>TE</option>
-                        
+                        <option>BE</option>
+                        <option>Other</option>
                     </select>
                 </div>
                 <div class="form-field">
                     <label>Track</label>
             <select name="track" required>
                 <option value="">Select Track</option>
-                        <option value="Track 1: Data Science">Track 1</option>
-                        <option value="Track 2: Web & AI Applications">Track 2</option>
+                        <option value="Track 1: Data Science">Track 1: Data Science</option>
+                        <option value="Track 2A: Web & AI Applications">Track 2A: Web & AI Applications</option>
                     </select>
                 </div>
                 <div class="form-field">
@@ -222,8 +253,7 @@
                 </div>
                 <div class="form-check form-wide">
                     <label>
-                        <input type="checkbox" name="agree" required />
-                        I have read and agree to the <a href="rulebook.html" target="_blank" style="color:var(--accent);text-decoration:underline;">Hackathon Rulebook</a> and code of conduct
+                        <input type="checkbox" name="agree" required /> I agree to the <a href="rulebook.html">hackathon rules </a> and code of conduct
                     </label>
                 </div>
                 <div class="form-check form-wide">
@@ -232,13 +262,13 @@
                     </label>
                 </div>
             </div>
-            <button type="submit">Submit & Pay</button>
+            <button type="submit">Submit</button>
         </form>
         <p id="msg"></p>
     </section>
 
     <footer>
-        <p>© 2025 HackNova · In association with ARI</p>
+        <p>© 2025 VIT Pune Hackathon · In association with ARI</p>
     </footer>
 
     <script src="script.js"></script>

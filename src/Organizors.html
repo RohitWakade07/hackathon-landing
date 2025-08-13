@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HackNova — Organizers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#071022; --card:#0b1220; --accent:#7c3aed; --muted:#9aa4b2}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#041022,#071022);color:#e6eef6;margin:0;padding:24px}
+    .wrap{max-width:600px;margin:0 auto}
+    header{text-align:center;margin-bottom:20px}
+    h1{margin:0;font-size:22px}
+
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);
+      padding:16px;border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.6);margin-bottom:12px}
+
+    .list{display:flex;flex-direction:column;gap:8px}
+    .list .item{padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);
+      display:flex;align-items:center;gap:12px}
+
+    .avatar{
+      width:40px;height:40px;border-radius:50%;
+      background:#222;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+      font-weight:bold;color:white;font-size:14px
+    }
+
+    .muted{color:var(--muted);font-size:13px}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>HackNova — Organizers</h1>
+      <div class="muted small">Meet the people making this event happen</div>
+    </header>
+
+    <!-- Main Organizers -->
+    <div class="card">
+      <div>
+        <div class="small">Organizers</div>
+        <div class="muted small">Overall Event Coordination</div>
+      </div>
+      <div id="main-organizers" style="margin-top:10px" class="list"></div>
+    </div>
+
+    <!-- Mentors -->
+    <div class="card">
+      <div>
+        <div class="small">Mentors</div>
+        <div class="muted small">Event Guides & Faculty</div>
+      </div>
+      <div id="mentors" style="margin-top:10px" class="list"></div>
+    </div>
+
+    <!-- Students -->
+    <div class="card">
+      <div>
+        <div class="small">Student Organizers</div>
+        <div class="muted small">Technical Team</div>
+      </div>
+      <div id="students" style="margin-top:10px" class="list"></div>
+    </div>
+  </div>
+
+  <script>
+    const organizers = [
+      {name:'DSSA', role:'Lead Organizer'},
+      
+    ];
+    const mentors = [
+      {name:'Dr. Deepa Abin', role:'Mentor'}
+    ];
+    const students = [
+      {name:'Snehal Antapurkar', role:'Technical Team'},
+      {name:'Rohit Wakade', role:'Technical Team'}
+    ];
+
+    function getInitials(name){
+      return name.split(' ').map(w=>w[0]).join('').toUpperCase();
+    }
+
+    function renderList(elId, items) {
+      const el = document.getElementById(elId);
+      el.innerHTML = '';
+      items.forEach(person => {
+        const it = document.createElement('div');
+        it.className = 'item';
+        it.innerHTML = `
+          <div class="avatar">${getInitials(person.name)}</div>
+          <div>
+            <div>${person.name}</div>
+            <div class="muted small">${person.role}</div>
+          </div>
+        `;
+        el.appendChild(it);
+      });
+    }
+
+    renderList('main-organizers', organizers);
+    renderList('mentors', mentors);
+    renderList('students', students);
+  </script>
+</body>
+</html>

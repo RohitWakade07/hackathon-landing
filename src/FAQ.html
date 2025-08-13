@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HackNova — FAQ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+
+   <!-- Bootstrap 4 CDN for navbar functionality -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+   <style>
+     /* FAQ card theme styling */
+     details {
+       background: rgba(255,255,255,0.22);
+       border-radius: 18px;
+       box-shadow: 0 8px 32px rgba(8,203,0,0.16);
+       backdrop-filter: blur(12px);
+       -webkit-backdrop-filter: blur(12px);
+       padding: 24px 18px;
+       margin: 28px auto;
+       max-width: 850px;
+       transition: box-shadow 0.3s, transform 0.3s;
+       border: 1.5px solid #c5d98d;
+       position: relative;
+     }
+     details:hover {
+       box-shadow: 0 16px 48px rgba(8,203,0,0.22);
+       transform: scale(1.015);
+       border-color: #478c6a;
+     }
+     summary {
+       font-weight: 700;
+       font-size: 1.1em;
+       color: #478c6a;
+       cursor: pointer;
+       outline: none;
+       list-style: none;
+     }
+     summary::-webkit-details-marker { display: none; }
+     summary::after {
+       content: "\25BC";
+       float: right;
+       transition: transform 0.3s ease;
+       font-size: 12px;
+       color: #bdcf63;
+     }
+     details[open] summary::after {
+       transform: rotate(-180deg);
+     }
+     details p {
+       color: #478c6a;
+       font-size: 1em;
+       margin-top: 10px;
+       animation: fadeIn 0.3s ease-in-out;
+     }
+     @keyframes fadeIn {
+       from { opacity: 0; transform: translateY(-5px); }
+       to { opacity: 1; transform: translateY(0); }
+     }
+     header {
+       text-align: center;
+       margin-bottom: 30px;
+     }
+     h1 {
+       margin: 0;
+       font-size: 2.2em;
+       font-weight: 700;
+       background: linear-gradient(90deg, #478c6a, #bdcf63);
+       -webkit-background-clip: text;
+       background-clip: text;
+       color: transparent;
+     }
+     .small {
+       color: #bdcf63;
+       font-size: 1em;
+       margin-top: 4px;
+     }
+   </style>
+  
+
+
+
+</head>
+<body>
+  <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4">
+                    <h4 class="drawer-title">Hackathon 2025</h4>
+                                        <div class="mt-3 drawer-links">
+                        <a href="index.html" class="mb-2">Home</a>
+                        <a href="#about" class="mb-2">About</a>
+                        <a href="FAQ.html" class="mb-2">FAQ</a>
+                        <a href="problems.html" class="mb-2">Problems</a>
+                        <a href="#contact">Contact Us</a>
+                        <a href="team.html">Organizers</a>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+    <canvas id="bgCanvas"></canvas>
+
+    <header>
+      <h1>HackNova — FAQ</h1>
+      <div class="small">Frequently Asked Questions</div>
+    </header>
+
+    <details>
+      <summary>Who can participate?</summary>
+      <p>The hackathon is open to students, researchers, and professionals from any field. Cross-disciplinary teams are encouraged, and solo participants are also welcome.</p>
+    </details>
+
+    <details>
+      <summary>What are the two tracks about?</summary>
+      <p><b>Track 1:</b> Implementing AIML in Agriculture — Focuses on solving agriculture challenges through data science, including EDA, model development, and MLOps best practices.<br>
+      <b>Track 2:</b> Web & AI Applications — Focuses on building end-to-end AI-powered applications that deliver tangible user value.</p>
+    </details>
+
+    <details>
+      <summary>What technologies should I know?</summary>
+      <p>For Track 1: Python, pandas, scikit-learn, PyTorch/TensorFlow, MLflow.<br>
+      For Track 2: React/Vue, Node/Flask/FastAPI, vector DBs, and LLM tools.</p>
+    </details>
+
+    <details>
+      <summary>Will mentors be available?</summary>
+      <p>Yes. Industry experts and faculty mentors will be available to guide teams throughout the hackathon, especially on problem statements and technical roadblocks.</p>
+    </details>
+
+    <details>
+      <summary>What are the deliverables?</summary>
+      <p>Track 1 deliverables include model notebooks, a metrics dashboard, and an insights brief.<br>
+      Track 2 deliverables include a deployed demo, architecture overview, and a usage guide.</p>
+    </details>
+
+    <details>
+      <summary>What kind of problem statements will we work on?</summary>
+      <p>Examples for Track 1 include crop yield forecasting, plant disease classification, soil nutrient recommendations, and smart irrigation policies.<br>
+      Examples for Track 2 include farmer assistant apps, supply chain dashboards, voice-to-notes tools, and advisory routing systems.</p>
+    </details>
+
+    <details>
+      <summary>How will projects be judged?</summary>
+      <p>Judging criteria include impact, feasibility, reproducibility, and clarity of presentation.</p>
+    </details>
+  </div>
+</body>
+</html>
+

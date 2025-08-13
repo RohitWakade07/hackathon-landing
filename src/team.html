@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Team | HackNova 2025</title>
+
+  <!-- Bootstrap 4 CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    body {
+      background: #fff;
+      font-family: 'Inter', Arial, sans-serif;
+      color: #222;
+      margin: 0;
+    }
+    .navbar {
+      background: #222 !important;
+    }
+    .navbar-brand, .nav-link {
+      color: #08CB00 !important;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .nav-link:hover {
+      color: #fff !important;
+      background: #08CB00;
+      border-radius: 6px;
+    }
+    .image-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      background: #fff;
+      padding: 32px 0 16px;
+      flex-wrap: wrap;
+    }
+    .image-row img {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      max-height: 120px;
+      object-fit: contain;
+      padding: 8px;
+    }
+    .whatsapp-img {
+      filter: brightness(1.1) contrast(1.2);
+    }
+    .section-heading {
+      text-align: center;
+      font-size: 2em;
+      margin: 32px 0 24px;
+      color: #253900;
+      font-weight: 700;
+    }
+    .team-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .team-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(8,203,0,0.08);
+      padding: 32px 24px;
+      min-width: 240px;
+      max-width: 320px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .team-card:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: 0 8px 32px rgba(8,203,0,0.18);
+    }
+    .team-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      color: #08CB00;
+      font-weight: 600;
+    }
+    .team-card .name {
+      font-size: 1.1em;
+      color: #222;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .team-card .desc {
+      font-size: 0.98em;
+      color: #555;
+      margin-top: 8px;
+    }
+    @media (max-width: 700px) {
+      .team-card { min-width: 90vw; max-width: 98vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Unified Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#">HackNova 2025</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="FAQ.html">FAQ</a></li>
+        <li class="nav-item"><a class="nav-link" href="problems.html">Problems</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="team.html">Organizers</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Logos -->
+  <div class="image-row">
+    <img src="../public/images/DSSA VIT.png" alt="DSSA VIT Logo" />
+    <img src="../public/images/WhatsApp Image 2025-08-13 at 14.02.39_cda59fac.jpg" alt="WhatsApp Logo" class="whatsapp-img" />
+  </div>
+
+  <!-- Team Section -->
+  <section id="team">
+    <h2 class="section-heading">Meet the Organizers</h2>
+    <div class="team-grid" id="teamGrid"></div>
+  </section>
+
+  <script>
+    const team = [
+      { role: "Director", name: "Prof. Dr. R. M. Jalnekar", desc: "Director, VIT Pune Visionary leader and mentor.",
+      img:"https://www.vit.edu/wp-content/uploads/2024/03/Dr-R-M-Jalnekar.jpg"
+       },
+      { role: "Head Of Department", name: "Prof. Deepa Abin", desc: "Head of Department, Computer Science and Engineering (Data Science), VIT Pune.", img: "https://vierp.s3.ap-south-1.amazonaws.com/cloud/employeeprofile/icard/photo/12023_6659photo.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250813T104726Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3599&X-Amz-Credential=AKIASPWL33DPQPC4UCGN%2F20250813%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=a840ed0163ed7aed358d0ba97ffa750075f3a663ec436288648415941f6de40f" },
+      { role: "Faculty Coordinator", name: "Sayali Prakash Shinde", desc: "Assistant Professor, Computer Science and Engineering (Data Science), VIT Pune.", img: "https://vierp.s3.ap-south-1.amazonaws.com/cloud/employeeprofile/icard/photo/12142_7162photo.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250813T104726Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIASPWL33DPQPC4UCGN%2F20250813%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=ab44287a5a9e5125a45fdcb3ec67d0a30ef2fcd03fa1a766369619401b7631cf" },
+      { role: "Faculty Coordinator", name: "Ashwini Ranjit Nawadkar", desc: "Assistant Professor, Computer Science and Engineering (Data Science), VIT Pune.", img: "https://vierp.s3.ap-south-1.amazonaws.com/cloud/employeeprofile/icard/photo/21073photo.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250813T104726Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIASPWL33DPQPC4UCGN%2F20250813%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=120c7342447e85c293633c40ba64847df51a8f45eb41aeac39a9d3a59a901f86" },
+      { role: "Industry Expert", name: "Dr. AOK", desc: "Industry expert and mentor from Agharkar Research Institute.", img: "https://example.com/aok.jpg" },
+      { role: "Organizing Club", name: "DSSA", desc: "Student lead, managing logistics and communication." },
+      { role: "Tech Lead", name: "Rohit Wakade", desc: "Full-stack developer, web and backend lead." },
+      
+    ];
+
+    function cardHTML(member) {
+      return `<div class="team-card">
+        <h3>${member.role}</h3>
+  ${member.img ? `<img src="${member.img}" alt="${member.name}" style="width:100px;height:120px;border-radius:10px;margin-bottom:10px;object-fit:cover;box-shadow:0 2px 8px rgba(8,203,0,0.12);" />` : ""}
+        <div class="name">${member.name}</div>
+        <div class="desc">${member.desc}</div>
+      </div>`;
+    }
+
+    document.getElementById('teamGrid').innerHTML = team.map(cardHTML).join('');
+  </script>
+
+</body>
+</html>

@@ -1,46 +1,32 @@
-/* Rulebook theme adjustments */
-.rulebook-bg {
-    background: linear-gradient(135deg, #f5f3ec 0%, #e2e0d2 100%);
-    color: #222;
-    min-height: 100vh;
-}
-.rulebook-section {
-    background: #fff;
-    color: #222;
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    padding: 32px 18px;
-    max-width: 700px;
-    margin: 40px auto;
-}
-.rulebook-section h2 {
-    color: #1E201E;
-    margin-bottom: 18px;
-}
-.rulebook-section ul.highlights {
-    color: #333;
-    opacity: 1;
-}
-.rulebook-section .note {
-    color: #555;
-    background: #f7f6f2;
-    border-radius: 8px;
-    padding: 12px;
-    margin-top: 24px;
+/* Register button container styling for index.html */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px 0 0 0;
+    
+    background: #c5d98d;
+    border-radius: 4px;
+    box-shadow: 0 4px 24px rgba(8,203,0,0.12);
+    max-width: 420px;
+    min-width: 260px;
+    width: 40%;
+    height: 30%;
+    transition: box-shadow 0.3s, transform 0.3s;
 }
 :root {
     /* Theme palette */
-    --c1: #1E201E; /* 40% */
-    --c2: #3C3D37; /* 20% */
-    --c3: #697565; /* 15% */
-    --c4: #ECDFCC; /* 15% */
+    --c1: #ffffff; /* 40% */
+    --c2: #bdcf63; /* 20% */
+    --c3: #478c6a; /* 15% */
+    --c4: #ffffff; /* 15% */
 
     --bg: var(--c1);
     --bg-accent: var(--c2);
     --accent: var(--c3);
     --accent-2: var(--c2);
-    --text: #ECDFCC;
-    --text-soft: #d0c6b6;
+    --text: #000000;
+    --text-soft: #000000;
 }
 
 body {
@@ -66,7 +52,11 @@ canvas#bgCanvas {
 }
 
 .hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    flex-direction: column;
     padding: 100px 20px;
     animation: fadeIn 1.5s ease-in-out;
 }
@@ -96,7 +86,7 @@ canvas#bgCanvas {
 .title {
     font-size: 3.2em;
     letter-spacing: 0.5px;
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    background: linear-gradient(90deg, var(--accent),#000000);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -130,7 +120,7 @@ canvas#bgCanvas {
 }
 .btn:hover {
     background: var(--accent-2);
-    color: #ECDFCC;
+    color: #f1ae4a;
 }
 
 .btn-ghost {
@@ -313,39 +303,15 @@ footer {
 /* Redesigned form layout */
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
     max-width: 980px;
-    width: 100%;
-    box-sizing: border-box;
-    align-items: start;
-    word-break: break-word;
-    overflow: visible;
 }
 .form-field { text-align: left; }
 .form-field label { display: block; margin-bottom: 6px; font-size: 0.9em; color: var(--text-soft); }
-.form-field input, .form-field select, .form-field textarea { width: 100%; }
+.form-field input, .form-field select, .form-field textarea { width: 93%; }
 .form-wide { grid-column: 1 / -1; }
 .form-check { text-align: left; }
-
-/* Prevent input overlap on small screens */
-@media (max-width: 600px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    .form-field, .form-check {
-        margin-bottom: 20px;
-    }
-    input, select, textarea {
-        min-width: 0;
-        width: 100%;
-        box-sizing: border-box;
-    }
-    .form-wide {
-        grid-column: 1 / -1;
-    }
-}
 
 /* Upload media box */
 .upload-box {
@@ -365,6 +331,27 @@ footer {
 .upload-sub { color: var(--text-soft); font-size: 0.85em; margin-top: 4px; }
 .upload-file-name { margin-top: 8px; color: var(--text-soft); font-style: italic; }
 
+
+.register-container:hover {
+  box-shadow: 0 8px 32px rgba(8,203,0,0.22);
+  transform: scale(1.03);
+}
+
+/* Responsive styles for .register-container */
+@media (max-width: 600px) {
+  .register-container {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 16px 8px;
+    border-radius: 16px;
+  }
+  .register-container a.btn {
+    font-size: 1em;
+    padding: 30px 25px;
+    margin: 0px 0;
+  }
+}
+
 @keyframes glow {
     from { text-shadow: 0 0 10px var(--accent); }
     to { text-shadow: 0 0 20px var(--accent-2); }
@@ -380,44 +367,89 @@ footer {
     .hero { padding: 60px 10px; }
     .tracks-grid { flex-direction: column; }
     .form-grid { grid-template-columns: 1fr; }
-    #register form {
-        padding: 12px;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+
+/* Enhanced blur-card for problems page */
+.blur-card {
+    background: rgba(255,255,255,0.22);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(8,203,0,0.16);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 24px 18px;
+    margin: 28px auto;
+    max-width: 850px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    border: 1.5px solid #c5d98d;
+    position: relative;
+}
+.blur-card:hover {
+    box-shadow: 0 16px 48px rgba(8,203,0,0.22);
+    transform: scale(1.015);
+    border-color: #478c6a;
+}
+
+.blur-card h3 {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: #478c6a;
+    margin-bottom: 0;
+}
+
+.blur-card .btn {
+    font-size: 0.95em;
+    padding: 6px 18px;
+    border-radius: 12px;
+    background: #478c6a;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(8,203,0,0.08);
+}
+.blur-card .btn:hover {
+    background: #bdcf63;
+    color: #222;
+}
+
+.blur-card .card-body {
+    background: rgba(255,255,255,0.32);
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(8,203,0,0.08);
+    margin-top: 8px;
+    padding: 18px 12px;
+    color: #222;
+}
+
+.blur-card ul {
+    list-style: disc inside;
+    padding-left: 18px;
+    margin-bottom: 0;
+}
+.blur-card ul li {
+    font-size: 1em;
+    margin: 7px 0;
+}
+
+.blur-card .problem-desc strong,
+.blur-card .problem-outcomes strong,
+.blur-card .dataset-links strong {
+    color: #478c6a;
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    .blur-card {
+        padding: 14px 6px;
+        max-width: 99vw;
+        border-radius: 12px;
     }
-    .form-field, .form-check {
-        margin-bottom: 18px;
-    }
-    input, select, button, textarea {
-        font-size: 1.1em;
-        padding: 16px;
-    }
-    label {
+    .blur-card h3 {
         font-size: 1em;
     }
-    .upload-box {
-        flex-direction: column;
-        gap: 8px;
-        padding: 12px;
+    .blur-card .btn {
+        font-size: 0.9em;
+        padding: 6px 10px;
     }
-    .upload-icon {
-        font-size: 1.8em;
-    }
-    .upload-text {
-        font-size: 1em;
-    }
-    .upload-file-name {
-        font-size: 0.95em;
-    }
-    button {
-        width: 100%;
-        font-size: 1.2em;
-        padding: 16px;
-    }
-    .form-wide {
-        grid-column: 1 / -1;
-    }
-    .form-check label {
-        font-size: 1em;
+    .blur-card .card-body {
+        padding: 10px 4px;
     }
 }
