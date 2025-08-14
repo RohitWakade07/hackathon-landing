@@ -1,0 +1,26 @@
+app = "AgriNova"
+
+[build]
+
+[env]
+  NODE_ENV = "production"
+  DATA_DIR = "/data"
+
+[[services]]
+  internal_port = 3000
+  processes = ["app"]
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+[mounts]
+  source = "data"
+  destination = "/data"
+
+

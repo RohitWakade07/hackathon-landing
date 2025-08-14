@@ -6,6 +6,7 @@ const cors = require('cors');
 const multer = require("multer");
 const ExcelJS = require('exceljs');
 const Database = require('better-sqlite3');
+const { Pool } = require('pg');
 const { z } = require('zod');
 
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
@@ -40,6 +41,8 @@ app.use(cors({
 
 // Serve only public assets (no server code/data)
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images'), { maxAge: '30d', etag: true }));
+// Extra mapping to support static-relative references from pages served under /src
+app.use('/public/images', express.static(path.join(__dirname, '..', 'public', 'images'), { maxAge: '30d', etag: true }));
 app.use('/', express.static(__dirname, { maxAge: '1h', etag: true, extensions: ['html'] , setHeaders(res, path){
   // prevent serving sensitive files by default
   const deny = [/server\.js$/, /data\.db$/, /data\.xlsx$/, /server\.log$/, /uploads\//];
@@ -80,7 +83,7 @@ const filePath = path.join(DATA_DIR, "data.xlsx");
 const uploadDir = path.join(DATA_DIR, "uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
-// Initialize SQLite DB
+// Initialize databases: Prefer Postgres (Supabase) if configured, else use SQLite
 const dbPath = path.join(DATA_DIR, 'data.db');
 const db = new Database(dbPath);
 db.prepare(`
@@ -105,6 +108,53 @@ db.prepare(`
     )
 `).run();
 logLine('SQLite initialized at ' + dbPath);
+
+let pgPool = null;
+const PG_URL = process.env.SUPABASE_DB_URL || process.env.DATABASE_URL || '';
+if (PG_URL) {
+    try {
+        pgPool = new Pool({ connectionString: PG_URL, ssl: { rejectUnauthorized: false } });
+        (async () => {
+            const client = await pgPool.connect();
+            try {
+                await client.query(`CREATE TABLE IF NOT EXISTS participants (
+                    id SERIAL PRIMARY KEY,
+                    teamName TEXT,
+                    teamSize TEXT,
+                    leaderName TEXT,
+                    phone TEXT,
+                    email TEXT,
+                    college TEXT,
+                    year TEXT,
+                    track TEXT,
+                    github TEXT,
+                    experience TEXT,
+                    members TEXT,
+                    projectIdea TEXT,
+                    agree TEXT,
+                    consent TEXT,
+                    ppt_path TEXT,
+                    timestamp TIMESTAMPTZ DEFAULT NOW()
+                )`);
+                await client.query(`CREATE TABLE IF NOT EXISTS problems (
+                    id TEXT PRIMARY KEY,
+                    track TEXT,
+                    title TEXT,
+                    description TEXT,
+                    outcomes JSONB,
+                    datasets JSONB,
+                    updated_at TIMESTAMPTZ DEFAULT NOW()
+                )`);
+                logLine('Postgres initialized');
+            } finally {
+                client.release();
+            }
+        })().catch(e => logLine('Postgres init error', { error: String(e && e.message || e) }));
+    } catch (e) {
+        logLine('Postgres pool init failed', { error: String(e && e.message || e) });
+        pgPool = null;
+    }
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) { cb(null, uploadDir); },
@@ -194,33 +244,64 @@ app.post("/submit", upload.single('ppt'), async (req, res) => {
         ]);
         await workbook.xlsx.writeFile(filePath);
 
-        // also insert into sqlite
-        try {
-            const insert = db.prepare(`INSERT INTO participants
-                (teamName, teamSize, leaderName, phone, email, college, year, track, github, experience, members, projectIdea, agree, consent, ppt_path, timestamp)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
-            const info = insert.run(
-                data.teamName || '',
-                data.teamSize || '',
-                data.name || '',
-                data.phone || '',
-                data.email || '',
-                data.college || '',
-                data.year || '',
-                data.track || '',
-                data.github || '',
-                data.experience || '',
-                data.members || '',
-                data.projectIdea || '',
-                data.agree ? 'Yes' : 'No',
-                data.consent ? 'Yes' : 'No',
-                req.file ? path.relative(__dirname, req.file.path) : '',
-                new Date().toISOString()
-            );
-            logLine('SQLite insert success', { lastInsertRowid: info.lastInsertRowid, changes: info.changes });
-        } catch (dbErr) {
-            console.error('SQLite insert error:', dbErr);
-            logLine('SQLite insert error', { error: String(dbErr && dbErr.message || dbErr) });
+        // Insert into DB (Postgres preferred, fallback to SQLite)
+        const nowIso = new Date().toISOString();
+        if (pgPool) {
+            try {
+                await pgPool.query(
+                    `INSERT INTO participants (teamName, teamSize, leaderName, phone, email, college, year, track, github, experience, members, projectIdea, agree, consent, ppt_path, timestamp)
+                     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16)`,
+                    [
+                        data.teamName || '',
+                        data.teamSize || '',
+                        data.name || '',
+                        data.phone || '',
+                        data.email || '',
+                        data.college || '',
+                        data.year || '',
+                        data.track || '',
+                        data.github || '',
+                        data.experience || '',
+                        data.members || '',
+                        data.projectIdea || '',
+                        data.agree ? 'Yes' : 'No',
+                        data.consent ? 'Yes' : 'No',
+                        req.file ? path.relative(__dirname, req.file.path) : '',
+                        nowIso
+                    ]
+                );
+                logLine('Postgres insert success');
+            } catch (e) {
+                logLine('Postgres insert error', { error: String(e && e.message || e) });
+            }
+        } else {
+            try {
+                const insert = db.prepare(`INSERT INTO participants
+                    (teamName, teamSize, leaderName, phone, email, college, year, track, github, experience, members, projectIdea, agree, consent, ppt_path, timestamp)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+                const info = insert.run(
+                    data.teamName || '',
+                    data.teamSize || '',
+                    data.name || '',
+                    data.phone || '',
+                    data.email || '',
+                    data.college || '',
+                    data.year || '',
+                    data.track || '',
+                    data.github || '',
+                    data.experience || '',
+                    data.members || '',
+                    data.projectIdea || '',
+                    data.agree ? 'Yes' : 'No',
+                    data.consent ? 'Yes' : 'No',
+                    req.file ? path.relative(__dirname, req.file.path) : '',
+                    nowIso
+                );
+                logLine('SQLite insert success', { lastInsertRowid: info.lastInsertRowid, changes: info.changes });
+            } catch (dbErr) {
+                console.error('SQLite insert error:', dbErr);
+                logLine('SQLite insert error', { error: String(dbErr && dbErr.message || dbErr) });
+            }
         }
 
         // Avoid logging PII in plaintext
@@ -252,8 +333,12 @@ app.get('/api/health', (req, res) => {
 });
 
 // API: participants (protected)
-app.get('/admin/participants.json', requireAdmin, (req, res) => {
+app.get('/admin/participants.json', requireAdmin, async (req, res) => {
     try {
+        if (pgPool) {
+            const r = await pgPool.query('SELECT * FROM participants ORDER BY id DESC');
+            return res.json(r.rows);
+        }
         const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
         res.json(rows);
     } catch (e) {
@@ -262,8 +347,12 @@ app.get('/admin/participants.json', requireAdmin, (req, res) => {
 });
 
 // Duplicate API under /api/admin to avoid conflicts with static /admin/*
-app.get('/api/admin/participants', requireAdmin, (req, res) => {
+app.get('/api/admin/participants', requireAdmin, async (req, res) => {
     try {
+        if (pgPool) {
+            const r = await pgPool.query('SELECT * FROM participants ORDER BY id DESC');
+            return res.json(r.rows);
+        }
         const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
         res.json(rows);
     } catch (e) {
@@ -272,8 +361,13 @@ app.get('/api/admin/participants', requireAdmin, (req, res) => {
 });
 
 // API: stats
-app.get('/admin/stats.json', requireAdmin, (req, res) => {
+app.get('/admin/stats.json', requireAdmin, async (req, res) => {
     try {
+        if (pgPool) {
+            const totalRow = await pgPool.query('SELECT COUNT(*)::int as c FROM participants');
+            const recent = await pgPool.query('SELECT * FROM participants ORDER BY id DESC LIMIT 5');
+            return res.json({ total: totalRow.rows[0].c, recent: recent.rows });
+        }
         const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
         const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
         res.json({ total, recent });
@@ -282,8 +376,13 @@ app.get('/admin/stats.json', requireAdmin, (req, res) => {
     }
 });
 
-app.get('/api/admin/stats', requireAdmin, (req, res) => {
+app.get('/api/admin/stats', requireAdmin, async (req, res) => {
     try {
+        if (pgPool) {
+            const totalRow = await pgPool.query('SELECT COUNT(*)::int as c FROM participants');
+            const recent = await pgPool.query('SELECT * FROM participants ORDER BY id DESC LIMIT 5');
+            return res.json({ total: totalRow.rows[0].c, recent: recent.rows });
+        }
         const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
         const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
         res.json({ total, recent });
@@ -294,8 +393,21 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
 
 // Problems API (public read, admin write)
 const problemsFile = path.join(DATA_DIR, 'problems.json');
-app.get('/api/problems', (req, res) => {
+app.get('/api/problems', async (req, res) => {
     try {
+        if (pgPool) {
+            const r = await pgPool.query('SELECT id, track, title, description, outcomes, datasets FROM problems ORDER BY updated_at DESC');
+            // Ensure arrays for JSONB columns
+            const arr = r.rows.map(row => ({
+                id: row.id,
+                track: row.track,
+                title: row.title,
+                description: row.description,
+                outcomes: Array.isArray(row.outcomes) ? row.outcomes : (row.outcomes || []),
+                datasets: Array.isArray(row.datasets) ? row.datasets : (row.datasets || [])
+            }));
+            return res.json(arr);
+        }
         if (!fs.existsSync(problemsFile)) return res.json([]);
         const data = fs.readFileSync(problemsFile, 'utf8');
         res.type('json').send(data);
@@ -304,10 +416,33 @@ app.get('/api/problems', (req, res) => {
     }
 });
 
-app.post('/api/problems', requireAdmin, express.json(), (req, res) => {
+app.post('/api/problems', requireAdmin, express.json(), async (req, res) => {
     try {
-        const arr = req.body;
-        // Ensure problems file directory exists in DATA_DIR
+        const arr = Array.isArray(req.body) ? req.body : [];
+        if (pgPool) {
+            const client = await pgPool.connect();
+            try {
+                await client.query('BEGIN');
+                // Replace-all strategy
+                await client.query('DELETE FROM problems');
+                for (const p of arr) {
+                    await client.query(
+                        `INSERT INTO problems (id, track, title, description, outcomes, datasets, updated_at)
+                         VALUES ($1,$2,$3,$4,$5,$6,NOW())
+                         ON CONFLICT (id) DO UPDATE SET track=EXCLUDED.track, title=EXCLUDED.title, description=EXCLUDED.description, outcomes=EXCLUDED.outcomes, datasets=EXCLUDED.datasets, updated_at=EXCLUDED.updated_at`,
+                        [p.id || String(Math.random()), p.track || '', p.title || p.problem || '', p.description || '', p.outcomes || [], p.datasets || []]
+                    );
+                }
+                await client.query('COMMIT');
+                return res.json({ message: 'OK' });
+            } catch (e) {
+                await client.query('ROLLBACK');
+                throw e;
+            } finally {
+                client.release();
+            }
+        }
+        // Fallback to file
         fs.mkdirSync(path.dirname(problemsFile), { recursive: true });
         fs.writeFileSync(problemsFile, JSON.stringify(arr, null, 2), 'utf8');
         res.json({ message: 'OK' });
