@@ -2,6 +2,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 const multer = require("multer");
 const ExcelJS = require('exceljs');
 const Database = require('better-sqlite3');
@@ -13,10 +14,29 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 
+// Trust reverse proxy (needed for rate limiting behind proxies)
+app.set('trust proxy', 1);
+
 // Security and performance middleware
 app.use(helmet());
+// Content Security Policy tuned to allow our CDNs and inline blocks used in static pages
+app.use(helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+        "default-src": ["'self'"],
+        "script-src": ["'self'", "'unsafe-inline'", "https://code.jquery.com", "https://cdn.jsdelivr.net", "https://stackpath.bootstrapcdn.com"],
+        "style-src": ["'self'", "'unsafe-inline'", "https://stackpath.bootstrapcdn.com"],
+        "img-src": ["'self'", "data:", "https://images.unsplash.com"],
+        "font-src": ["'self'", "data:"],
+        "connect-src": ["'self'"],
+        // frame-ancestors left to defaults; add as needed
+    }
+}));
 app.use(compression());
 app.use(rateLimit({ windowMs: 60 * 1000, max: 120 }));
+app.use(cors({
+    origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',').map(s=>s.trim()) : true
+}));
 
 // Serve only public assets (no server code/data)
 app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images'), { maxAge: '30d', etag: true }));
@@ -29,6 +49,9 @@ app.use('/', express.static(__dirname, { maxAge: '1h', etag: true, extensions: [
 }}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Quietly handle missing favicon to avoid 404 noise
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 
 // simple file logger to help debug in environments where foreground logs are hard to view
 const logFile = path.join(__dirname, 'server.log');
@@ -48,13 +71,17 @@ if (!process.env.ADMIN_TOKEN) {
     logLine('ADMIN_TOKEN not set; defaulting to ' + DEFAULT_ADMIN_TOKEN);
 }
 
-const filePath = path.join(__dirname, "data.xlsx");
-// Move uploads out of static serving path
-const uploadDir = path.join(__dirname, "..", "uploads");
+// Central data directory (configure a persistent volume in production)
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
+fs.mkdirSync(DATA_DIR, { recursive: true });
+
+const filePath = path.join(DATA_DIR, "data.xlsx");
+// Move uploads out of static serving path, into DATA_DIR
+const uploadDir = path.join(DATA_DIR, "uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
 // Initialize SQLite DB
-const dbPath = path.join(__dirname, 'data.db');
+const dbPath = path.join(DATA_DIR, 'data.db');
 const db = new Database(dbPath);
 db.prepare(`
     CREATE TABLE IF NOT EXISTS participants (
@@ -219,6 +246,11 @@ function requireAdmin(req, res, next) {
     next();
 }
 
+// Health check
+app.get('/api/health', (req, res) => {
+    res.json({ ok: true, env: process.env.NODE_ENV || 'development' });
+});
+
 // API: participants (protected)
 app.get('/admin/participants.json', requireAdmin, (req, res) => {
     try {
@@ -261,7 +293,7 @@ app.get('/api/admin/stats', requireAdmin, (req, res) => {
 });
 
 // Problems API (public read, admin write)
-const problemsFile = path.join(__dirname, 'data', 'problems.json');
+const problemsFile = path.join(DATA_DIR, 'problems.json');
 app.get('/api/problems', (req, res) => {
     try {
         if (!fs.existsSync(problemsFile)) return res.json([]);
@@ -275,7 +307,8 @@ app.get('/api/problems', (req, res) => {
 app.post('/api/problems', requireAdmin, express.json(), (req, res) => {
     try {
         const arr = req.body;
-        fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+        // Ensure problems file directory exists in DATA_DIR
+        fs.mkdirSync(path.dirname(problemsFile), { recursive: true });
         fs.writeFileSync(problemsFile, JSON.stringify(arr, null, 2), 'utf8');
         res.json({ message: 'OK' });
     } catch (e) {

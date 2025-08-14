@@ -143,12 +143,20 @@
       return fromQs || localStorage.getItem('ADMIN_TOKEN') || '';
     }
     function tokenQuery(){ const t = getToken(); return t ? ('?token='+encodeURIComponent(t)) : ''; }
+    function apiBase(){
+      const fromQs = new URLSearchParams(location.search).get('api');
+      if (fromQs) { try{ localStorage.setItem('API_BASE', fromQs.replace(/\/$/,'')); }catch(_){} }
+      const stored = localStorage.getItem('API_BASE') || '';
+      return stored || '';
+    }
     async function fetchAuthed(url, opts){
       const token = getToken();
       const headers = Object.assign({}, (opts && opts.headers) || {});
       if (token) headers['x-admin-token'] = token;
       const options = Object.assign({}, opts, { headers });
-      return fetch(url, options);
+      const base = apiBase();
+      const full = /^https?:\/\//.test(url) ? url : (base + url);
+      return fetch(full, options);
     }
     function saveToken(){ const v = document.getElementById('tokenInput').value.trim(); localStorage.setItem('ADMIN_TOKEN', v); loadAll(); }
     document.getElementById('tokenInput').value = getToken();

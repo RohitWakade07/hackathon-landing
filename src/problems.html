@@ -83,9 +83,16 @@
     </section>
 
     <script>
+        function apiBase(){
+            const qs = new URLSearchParams(location.search);
+            const base = qs.get('api');
+            if (base){ try{ localStorage.setItem('API_BASE', base.replace(/\/$/,'')); }catch(_){} }
+            return localStorage.getItem('API_BASE') || '';
+        }
         async function loadProblems(){
             try{
-                const resp = await fetch('/api/problems');
+                const base = apiBase();
+                const resp = await fetch(base + '/api/problems');
                 const arr = await resp.json();
                 const t1 = document.getElementById('track1-list');
                 const t2 = document.getElementById('track2-list');
