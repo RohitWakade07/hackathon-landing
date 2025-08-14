@@ -72,8 +72,74 @@
             <button class="btn btn-ghost" onclick="document.getElementById('track2').scrollIntoView({behavior:'smooth'})">Track 2: Web & AI Applications</button>
         </div>
         <div id="track1">
-                        <h2 class="section-heading">Track 1: Next-Gen Agri AI & Data Science</h2>
-            <div id="track1-list"></div>
+            <h2 class="section-heading">Track 1: Next-Gen Agri AI & Data Science</h2>
+            <div id="track1-list">
+                <div class="blur-card" style="margin-bottom:32px;">
+                    <h3>AI-Driven Leaf Health Assessment, Damage Quantification, and Leaf Area Index Calculation</h3>
+                    <div class="problem-desc"><strong>Description:</strong> Develop a lightweight AI system that analyses crop leaf images to identify multiple possible diseases and pest damages using pre-trained deep learning models. The system should also estimate the percentage of leaf area affected by each detected condition using segmentation techniques, along with calculating the Leaf Area Index (LAI) to provide an additional quantitative measure of plant canopy condition. The aim is to deliver a functional proof-of-concept capable of classifying multiple conditions, estimating damage severity, and computing the Leaf Area Index (LAI) from a single uploaded crop leaf image.</div>
+                    <div class="problem-outcomes"><strong>Expected Outcomes:</strong>
+                        <ul>
+                            <li>Upload a leaf image from any crop.</li>
+                            <li>Receive a report listing all detected diseases/pest damages (multi-label classification).</li>
+                            <li>View the scale of damage for each detected condition, represented both as a descriptive category (e.g., low, moderate, severe) and as an approximate percentage of leaf area affected.</li>
+                            <li>Calculate the Leaf Area Index (LAI) from the uploaded image.</li>
+                            <li>See an overlaid segmentation mask highlighting the affected regions.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="blur-card" style="margin-bottom:32px;">
+                    <h3>AI-Assisted Flag Leaf Measurement and Yield Prediction</h3>
+                    <div class="problem-desc"><strong>Description:</strong> Develop a machine learning pipeline that processes UAV imagery of crop fields to detect and measure the morphological dimensions of the flag leaf. Using these measurements, the system should apply a regression model to predict the final grain yield for the corresponding crop. The solution can leverage pre-trained object detection and segmentation models for leaf identification. The focus will be on integrating detection, measurement, and prediction into a single functional workflow.</div>
+                    <div class="problem-outcomes"><strong>Expected Outcomes:</strong>
+                        <ul>
+                            <li>Upload a UAV image of a crop field.</li>
+                            <li>Automatically detect flag leaves in the image using a pre-trained model.</li>
+                            <li>Measure the length, width, and area of each detected flag leaf (converted from pixels to centimeters using UAV image metadata).</li>
+                            <li>Predict the final grain yield for the crop using a regression model trained on provided data.</li>
+                            <li>Display visual overlays showing detected leaves and measurement annotations.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="blur-card" style="margin-bottom:32px;">
+                    <h3>AI-Powered Automated Quantification of Symbiotic Root Nodules</h3>
+                    <div class="problem-desc"><strong>Description:</strong> Develop a computer vision application that analyses an image of an excavated legume root system to automatically detect, count, and measure symbiotic root nodules. This will replace the labour-intensive manual process currently used in soil health research. The solution can utilize publicly available or pre-trained object detection and segmentation models for nodule identification. The emphasis will be on integrating detection, counting, and measurement into a functional workflow with a simple, user-friendly interface.</div>
+                    <div class="problem-outcomes"><strong>Expected Outcomes:</strong>
+                        <ul>
+                            <li>Upload an image of an excavated legume root system.</li>
+                            <li>Automatically detect and count all visible root nodules using a pre-trained detection/segmentation model.</li>
+                            <li>Measure the size distribution of detected nodules (in mm or cm, using scale reference in the image).</li>
+                            <li>Generate a Nodulation Score based on total nodule count and size distribution.</li>
+                            <li>Display visual overlays marking detected nodules and their measurements.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="blur-card" style="margin-bottom:32px;">
+                    <h3>High-Throughput Seed Damage and Pest Infestation Analysis</h3>
+                    <div class="problem-desc"><strong>Description:</strong> Build an AI-driven imaging system capable of batch-processing seed samples to automatically detect and quantify various forms of damage, such as cracks, discoloration, mold, and pest-related defects (including counting insect eggs or holes on individual seeds). The focus is on rapid and accurate analysis to support seed quality assessment and pest monitoring workflows.</div>
+                    <div class="problem-outcomes"><strong>Expected Outcomes:</strong>
+                        <ul>
+                            <li>Damage classification for each seed (e.g., healthy, cracked, discolored, mold-infected).</li>
+                            <li>Pest infestation indicators, including egg/larvae count or visible holes.</li>
+                            <li>Damage Severity Scale for each seed (e.g., 0–No Damage, 1–Mild, 2–Moderate, 3–Severe) based on the percentage of seed surface affected.</li>
+                            <li>Quantitative summary for the entire batch: percentage of damaged seeds per category, average pest count per seed, size distribution of damage.</li>
+                            <li>Exportable data table and summary charts for further research or quality control.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="blur-card" style="margin-bottom:32px;">
+                    <h3>AgriCurate: AI-Powered Dataset Quality and Curation Tool</h3>
+                    <div class="problem-desc"><strong>Description:</strong> Build an AI-assisted data curation platform that can process agricultural datasets (images, sensor data, or hybrid datasets) in bulk to automatically evaluate and enhance dataset quality. The system should detect missing, inconsistent, or low-quality data, assess metadata completeness, and identify anomalies such as mislabeled crop types or unrealistic sensor values. The focus is on rapid, repeatable, and transparent dataset evaluation to support research, model training, and decision-making in agriculture.</div>
+                    <div class="problem-outcomes"><strong>Expected Outcomes:</strong>
+                        <ul>
+                            <li>Curation Metrics for Each Dataset: completeness, timeliness, precision, provenance, plausibility.</li>
+                            <li>Data Quality Scorecard: A single score summarizing overall dataset health.</li>
+                            <li>Anomaly Detection Report: Highlights of mislabeled data, extreme outliers, or duplicates.</li>
+                            <li>Batch Summary: percentage of entries failing quality checks, distribution of errors across categories, recommendations for corrective actions.</li>
+                            <li>Exportable Outputs: PDF report with visual charts, detailed data tables, and issue tracking logs for future audits.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
         
                                 <div id="track2">

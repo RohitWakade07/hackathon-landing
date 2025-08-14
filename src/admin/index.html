@@ -50,15 +50,15 @@
     <div class="token">
       <span class="muted">Admin token</span>
       <input id="tokenInput" placeholder="Enter token" />
-      <button class="btn small" onclick="saveToken()">Save</button>
+  <button class="btn small" id="saveTokenBtn">Save</button>
     </div>
   </div>
 
   <div class="wrap">
     <div class="tabs">
-      <div class="tab active" data-tab="overview" onclick="switchTab('overview')">Overview</div>
-      <div class="tab" data-tab="participants" onclick="switchTab('participants')">Participants</div>
-      <div class="tab" data-tab="problems" onclick="switchTab('problems')">Problem Statements</div>
+  <div class="tab active" data-tab="overview" id="tabOverview">Overview</div>
+  <div class="tab" data-tab="participants" id="tabParticipants">Participants</div>
+  <div class="tab" data-tab="problems" id="tabProblems">Problem Statements</div>
     </div>
 
     <section id="tab-overview">
@@ -85,13 +85,13 @@
     <section id="tab-participants" class="hidden">
       <div class="card">
         <div class="row filters">
-          <input id="search" placeholder="Search team / leader / email / track" oninput="renderParticipants()" />
-          <select id="trackFilter" onchange="renderParticipants()">
+          <input id="search" placeholder="Search team / leader / email / track" />
+          <select id="trackFilter">
             <option value="">All tracks</option>
             <option>Track 1</option>
             <option>Track 2</option>
           </select>
-          <button class="btn small right" onclick="exportCSV()">Export CSV</button>
+          <button class="btn small right" id="exportCSVBtn">Export CSV</button>
         </div>
         <div style="max-height:55vh;overflow:auto;border:1px solid var(--border);border-radius:12px;">
           <table id="allTbl"><thead><tr><th>ID</th><th>Team</th><th>Leader</th><th>Phone</th><th>Email</th><th>Track</th><th>Time</th></tr></thead><tbody></tbody></table>
@@ -118,8 +118,8 @@
             <label>Data sets</label>
             <textarea id="pDatasets" placeholder="One per line (URLs or names)"></textarea>
             <div class="row">
-              <button class="btn" onclick="addOrUpdateProblem()" id="saveProblemBtn">Add Problem</button>
-              <button class="btn ghost" onclick="resetProblemForm()">Clear</button>
+              <button class="btn" id="saveProblemBtn">Add Problem</button>
+              <button class="btn ghost" id="clearProblemBtn">Clear</button>
               <span class="right muted" id="formHint"></span>
             </div>
           </div>
@@ -128,7 +128,7 @@
           <div class="section-title">Current Problems</div>
           <div id="problemsList"></div>
           <div class="row" style="margin-top:10px;">
-            <button class="btn" onclick="saveProblemsToServer()">Save All</button>
+            <button class="btn" id="saveAllProblemsBtn">Save All</button>
             <span class="muted right" id="problemsStatus"></span>
           </div>
         </div>
@@ -156,7 +156,7 @@
       const options = Object.assign({}, opts, { headers });
       const base = apiBase();
       const full = /^https?:\/\//.test(url) ? url : (base + url);
-      return fetch(full, options);
+      return fetch(full, options);  
     }
     function saveToken(){ const v = document.getElementById('tokenInput').value.trim(); localStorage.setItem('ADMIN_TOKEN', v); loadAll(); }
     document.getElementById('tokenInput').value = getToken();
@@ -242,8 +242,8 @@
             <span class="pill">${eh(p.track||'')}</span>
             <strong style="margin-left:8px">${eh(p.title || p.problem || 'Untitled')}</strong>
             <span class="right">
-              <a href="#" onclick="editProblem(${i});return false;">Edit</a>
-              &nbsp;&nbsp;<a class="danger" href="#" onclick="removeProblem(${i});return false;">Delete</a>
+              <a href="#" class="editProblemBtn" data-index="${i}">Edit</a>
+              &nbsp;&nbsp;<a class="danger removeProblemBtn" href="#" data-index="${i}">Delete</a>
             </span>
           </div>
           <div class="muted" style="margin-top:6px"><strong>Description:</strong><br>${eh(p.description||'')}</div>
@@ -306,6 +306,30 @@
     function eh(s){ if(!s) return ''; return String(s).replace(/[&<>\"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'})[c]); }
     function genId(s){ return (s||'p').toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40)+'-'+Math.random().toString(36).slice(2,6); }
 
+    // Event listeners for CSP compliance
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('saveTokenBtn').addEventListener('click', saveToken);
+      document.getElementById('tabOverview').addEventListener('click', function(){switchTab('overview');});
+      document.getElementById('tabParticipants').addEventListener('click', function(){switchTab('participants');});
+      document.getElementById('tabProblems').addEventListener('click', function(){switchTab('problems');});
+      document.getElementById('search').addEventListener('input', renderParticipants);
+      document.getElementById('trackFilter').addEventListener('change', renderParticipants);
+      document.getElementById('exportCSVBtn').addEventListener('click', exportCSV);
+      document.getElementById('saveProblemBtn').addEventListener('click', addOrUpdateProblem);
+      document.getElementById('clearProblemBtn').addEventListener('click', resetProblemForm);
+      document.getElementById('saveAllProblemsBtn').addEventListener('click', saveProblemsToServer);
+      // Delegate edit/delete for problems
+      document.getElementById('problemsList').addEventListener('click', function(e){
+        if(e.target.classList.contains('editProblemBtn')){
+          e.preventDefault();
+          editProblem(Number(e.target.getAttribute('data-index')));
+        }
+        if(e.target.classList.contains('removeProblemBtn')){
+          e.preventDefault();
+          removeProblem(Number(e.target.getAttribute('data-index')));
+        }
+      });
+    });
     loadAll();
   </script>
 </body>

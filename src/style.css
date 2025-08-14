@@ -459,8 +459,8 @@ footer {
 
 /* small responsive tweaks */
 @media (max-width: 600px) {
-    .title { font-size: 2.2em; padding: 0 10px; }
-    .hero { padding: 60px 10px; }
+    .title { font-size: 2.2em;  }
+    
     .tracks-grid { flex-direction: column; }
     .form-grid { grid-template-columns: 1fr; }
 }
@@ -471,9 +471,7 @@ footer {
   .brand-strip img { height: 52px; max-height:52px; padding: 4px 6px; }
 }
 @media (max-width: 480px) {
-  .brand-strip { gap: 8px; padding: 0 10px; }
-  .brand-strip img { height: 44px; max-height:44px; padding: 2px 4px; }
-  .hero { padding-top: 88px; }
+  .brand-strip img { height: 44px; max-height:44px; }
 }
 
 /* Enhanced blur-card for problems page */
