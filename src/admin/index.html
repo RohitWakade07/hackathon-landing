@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HackNova — Admin Dashboard</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --bg2:#0f141b; --card:#111827; --muted:#9aa4b2; --text:#e6eef6; --accent:#22c55e; --accent2:#16a34a; --danger:#ef4444;
+      --border: rgba(255,255,255,0.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);font-family:Inter,system-ui,Arial}
+    a{color:var(--accent);text-decoration:none}
+    .topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;background:rgba(2,6,23,0.7);backdrop-filter:blur(10px);padding:12px 16px;border-bottom:1px solid var(--border)}
+    .brand{font-weight:800;letter-spacing:.5px}
+    .token{display:flex;gap:8px;align-items:center}
+    .token input{background:#0b1220;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px;min-width:220px}
+    .btn{background:var(--accent);color:#062a12;border:none;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+    .btn.small{padding:6px 10px;border-radius:6px}
+    .wrap{max-width:1200px;margin:16px auto;padding:0 12px}
+    .tabs{display:flex;gap:10px;border-bottom:1px solid var(--border);margin-bottom:12px}
+    .tab{padding:10px 12px;border-bottom:2px solid transparent;cursor:pointer;color:var(--muted)}
+    .tab.active{border-color:var(--accent);color:var(--text)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 30px rgba(2,6,23,0.5);padding:14px}
+    .stat{display:flex;flex-direction:column;gap:4px}
+    .stat .num{font-size:22px;font-weight:800}
+    .muted{color:var(--muted)}
+    .section-title{font-size:18px;font-weight:700;margin:6px 0 10px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid var(--border);text-align:left}
+    thead th{position:sticky;top:0;background:#0e1420}
+    .filters{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+    input,select,textarea{background:#0b1220;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 10px}
+    textarea{min-height:90px}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#12222a;color:#7ad69a;border:1px solid #164c2c;font-size:12px}
+    .list{display:flex;flex-direction:column;gap:10px}
+    .row{display:flex;gap:8px;align-items:center}
+    .danger{color:var(--danger);cursor:pointer}
+    .right{margin-left:auto}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">HackNova Admin</div>
+    <div class="token">
+      <span class="muted">Admin token</span>
+      <input id="tokenInput" placeholder="Enter token" />
+      <button class="btn small" onclick="saveToken()">Save</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="tabs">
+      <div class="tab active" data-tab="overview" onclick="switchTab('overview')">Overview</div>
+      <div class="tab" data-tab="participants" onclick="switchTab('participants')">Participants</div>
+      <div class="tab" data-tab="problems" onclick="switchTab('problems')">Problem Statements</div>
+    </div>
+
+    <section id="tab-overview">
+      <div class="grid">
+        <div class="card stat" style="grid-column:span 3;">
+          <div class="muted">Total registrations</div>
+          <div class="num" id="ov-total">—</div>
+        </div>
+        <div class="card stat" style="grid-column:span 3;">
+          <div class="muted">Track 1</div>
+          <div class="num" id="ov-track1">—</div>
+        </div>
+        <div class="card stat" style="grid-column:span 3;">
+          <div class="muted">Track 2</div>
+          <div class="num" id="ov-track2">—</div>
+        </div>
+        <div class="card" style="grid-column:span 12;">
+          <div class="section-title">Recent submissions</div>
+          <table id="recentTbl"><thead><tr><th>Team</th><th>Leader</th><th>Email</th><th>Track</th><th>Time</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-participants" class="hidden">
+      <div class="card">
+        <div class="row filters">
+          <input id="search" placeholder="Search team / leader / email / track" oninput="renderParticipants()" />
+          <select id="trackFilter" onchange="renderParticipants()">
+            <option value="">All tracks</option>
+            <option>Track 1</option>
+            <option>Track 2</option>
+          </select>
+          <button class="btn small right" onclick="exportCSV()">Export CSV</button>
+        </div>
+        <div style="max-height:55vh;overflow:auto;border:1px solid var(--border);border-radius:12px;">
+          <table id="allTbl"><thead><tr><th>ID</th><th>Team</th><th>Leader</th><th>Phone</th><th>Email</th><th>Track</th><th>Time</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-problems" class="hidden">
+      <div class="grid">
+        <div class="card" style="grid-column:span 6;">
+          <div class="section-title">Add / Edit Problem</div>
+          <div class="list">
+            <label>Track</label>
+            <select id="pTrack">
+              <option>Track 1</option>
+              <option>Track 2</option>
+            </select>
+            <label>Problem</label>
+            <input id="pTitle" placeholder="Title" />
+            <label>Description</label>
+            <textarea id="pDesc" placeholder="Short description"></textarea>
+            <label>Expected Outcome</label>
+            <textarea id="pOutcomes" placeholder="One per line"></textarea>
+            <label>Data sets</label>
+            <textarea id="pDatasets" placeholder="One per line (URLs or names)"></textarea>
+            <div class="row">
+              <button class="btn" onclick="addOrUpdateProblem()" id="saveProblemBtn">Add Problem</button>
+              <button class="btn ghost" onclick="resetProblemForm()">Clear</button>
+              <span class="right muted" id="formHint"></span>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="grid-column:span 6;">
+          <div class="section-title">Current Problems</div>
+          <div id="problemsList"></div>
+          <div class="row" style="margin-top:10px;">
+            <button class="btn" onclick="saveProblemsToServer()">Save All</button>
+            <span class="muted right" id="problemsStatus"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function getToken(){
+      const fromQs = new URLSearchParams(location.search).get('token');
+      if(fromQs){ localStorage.setItem('ADMIN_TOKEN', fromQs); }
+      return fromQs || localStorage.getItem('ADMIN_TOKEN') || '';
+    }
+    function tokenQuery(){ const t = getToken(); return t ? ('?token='+encodeURIComponent(t)) : ''; }
+    async function fetchAuthed(url, opts){
+      const token = getToken();
+      const headers = Object.assign({}, (opts && opts.headers) || {});
+      if (token) headers['x-admin-token'] = token;
+      const options = Object.assign({}, opts, { headers });
+      return fetch(url, options);
+    }
+    function saveToken(){ const v = document.getElementById('tokenInput').value.trim(); localStorage.setItem('ADMIN_TOKEN', v); loadAll(); }
+    document.getElementById('tokenInput').value = getToken();
+
+    function switchTab(id){
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      const tabEl = document.querySelector(`.tab[data-tab="${id}"]`);
+      if (tabEl) tabEl.classList.add('active');
+      document.querySelectorAll('section[id^="tab-"]').forEach(s=>s.classList.add('hidden'));
+      const target = document.getElementById('tab-'+id);
+      if (target) target.classList.remove('hidden');
+    }
+
+    // Data stores
+    let participants = [];
+    let problems = [];
+    let editingIndex = -1;
+
+    async function loadAll(){
+      await Promise.all([loadStats(), loadParticipants(), loadProblems()]);
+      renderParticipants();
+      renderProblems();
+    }
+
+    async function loadStats(){
+      try {
+        const s = await fetchAuthed('/api/admin/stats').then(r=>r.json());
+        const totalEl = document.getElementById('ov-total'); if (totalEl) totalEl.textContent = s.total ?? 0;
+        const rb = document.querySelector('#recentTbl tbody'); if (rb) rb.innerHTML = '';
+        const recent = s.recent || [];
+        recent.forEach(r=> rb.innerHTML += `<tr><td>${eh(r.teamName)}</td><td>${eh(r.leaderName)}</td><td>${eh(r.email)}</td><td>${eh(r.track)}</td><td>${eh(r.timestamp)}</td></tr>`);
+      } catch (_) { /* ignore */ }
+    }
+
+    async function loadParticipants(){
+      try {
+        participants = await fetchAuthed('/api/admin/participants').then(r=>r.json());
+        const t1 = participants.filter(p=>String(p.track||'').toLowerCase().includes('track 1')).length;
+        const t2 = participants.filter(p=>String(p.track||'').toLowerCase().includes('track 2')).length;
+        const e1 = document.getElementById('ov-track1'); if (e1) e1.textContent = t1;
+        const e2 = document.getElementById('ov-track2'); if (e2) e2.textContent = t2;
+      } catch (_) { participants = []; }
+    }
+
+    function renderParticipants(){
+      const qEl = document.getElementById('search');
+      const fEl = document.getElementById('trackFilter');
+      const q = (qEl ? qEl.value : '').toLowerCase();
+      const track = fEl ? fEl.value : '';
+      const body = document.querySelector('#allTbl tbody');
+      if (!body) return;
+      body.innerHTML = '';
+      participants
+        .filter(p=>!track || String(p.track||'').toLowerCase().includes(track.toLowerCase()))
+        .filter(p=>{
+          const hay = `${p.teamName} ${p.leaderName} ${p.email} ${p.track}`.toLowerCase();
+          return !q || hay.includes(q);
+        })
+        .forEach(r=> body.innerHTML += `<tr><td>${r.id}</td><td>${eh(r.teamName)}</td><td>${eh(r.leaderName)}</td><td>${eh(r.phone)}</td><td>${eh(r.email)}</td><td>${eh(r.track)}</td><td>${eh(r.timestamp)}</td></tr>`);
+    }
+
+    function exportCSV(){
+      const rows = [['ID','Team','Leader','Phone','Email','Track','Time']]
+        .concat(participants.map(r=>[r.id,r.teamName,r.leaderName,r.phone,r.email,r.track,r.timestamp]));
+      const csv = rows.map(r=>r.map(v=>`"${String(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='participants.csv'; a.click(); URL.revokeObjectURL(url);
+    }
+
+    async function loadProblems(){
+      try { problems = await fetch('/api/problems').then(r=>r.json()); } catch (_) { problems = []; }
+      if (!Array.isArray(problems)) problems = [];
+    }
+
+    function renderProblems(){
+      const list = document.getElementById('problemsList');
+      if (!list) return;
+      if (!problems.length){ list.innerHTML = '<div class="muted">No problems yet</div>'; return; }
+      list.innerHTML = problems.map((p,i)=> `
+        <div class="card" style="margin-bottom:8px;">
+          <div class="row">
+            <span class="pill">${eh(p.track||'')}</span>
+            <strong style="margin-left:8px">${eh(p.title || p.problem || 'Untitled')}</strong>
+            <span class="right">
+              <a href="#" onclick="editProblem(${i});return false;">Edit</a>
+              &nbsp;&nbsp;<a class="danger" href="#" onclick="removeProblem(${i});return false;">Delete</a>
+            </span>
+          </div>
+          <div class="muted" style="margin-top:6px"><strong>Description:</strong><br>${eh(p.description||'')}</div>
+          <details style="margin-top:6px">
+            <summary class="muted">View details</summary>
+            <div class="muted" style="margin-top:6px"><strong>Expected Outcomes:</strong><br>${Array.isArray(p.outcomes)? p.outcomes.map(eh).join('<br>') : ''}</div>
+            <div class="muted" style="margin-top:6px"><strong>Data sets:</strong><br>${Array.isArray(p.datasets)? p.datasets.map(d=>`<a href="${eh(d)}" target="_blank">${eh(d)}</a>`).join('<br>') : ''}</div>
+          </details>
+        </div>
+      `).join('');
+    }
+
+    function resetProblemForm(){
+      editingIndex = -1;
+      document.getElementById('pTrack').value = 'Track 1';
+      document.getElementById('pTitle').value = '';
+      document.getElementById('pOutcomes').value = '';
+      document.getElementById('pDatasets').value = '';
+      document.getElementById('saveProblemBtn').textContent = 'Add Problem';
+      document.getElementById('formHint').textContent = '';
+    }
+
+    function addOrUpdateProblem(){
+      const track = document.getElementById('pTrack').value.trim();
+      const title = document.getElementById('pTitle').value.trim();
+      const outcomes = document.getElementById('pOutcomes').value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+      const datasets = document.getElementById('pDatasets').value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+      const description = document.getElementById('pDesc').value.trim();
+      if(!title){ document.getElementById('formHint').textContent = 'Title is required'; return; }
+      const obj = { id: genId(title), track, title, description, outcomes, datasets };
+      if(editingIndex >= 0){ problems[editingIndex] = obj; } else { problems.push(obj); }
+      resetProblemForm(); renderProblems();
+    }
+
+    function editProblem(i){
+      editingIndex = i;
+      const p = problems[i];
+      document.getElementById('pTrack').value = p.track || 'Track 1';
+      document.getElementById('pTitle').value = p.title || p.problem || '';
+      document.getElementById('pDesc').value = p.description || p.details || p.summary || '';
+      document.getElementById('pOutcomes').value = Array.isArray(p.outcomes) ? p.outcomes.join('\n') : '';
+      document.getElementById('pDatasets').value = Array.isArray(p.datasets) ? p.datasets.join('\n') : '';
+      document.getElementById('saveProblemBtn').textContent = 'Update Problem';
+      document.getElementById('formHint').textContent = 'Editing index #'+i;
+    }
+
+    function removeProblem(i){ problems.splice(i,1); renderProblems(); }
+
+    async function saveProblemsToServer(){
+      const status = document.getElementById('problemsStatus');
+      try{
+        status.textContent = 'Saving...';
+        const resp = await fetchAuthed('/api/problems', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(problems) });
+        const r = await resp.json();
+        status.textContent = r.message || 'Saved';
+      }catch(e){ status.textContent = 'Save failed'; }
+    }
+
+    // utils
+    function eh(s){ if(!s) return ''; return String(s).replace(/[&<>\"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'})[c]); }
+    function genId(s){ return (s||'p').toLowerCase().replace(/[^a-z0-9]+/g,'-').slice(0,40)+'-'+Math.random().toString(36).slice(2,6); }
+
+    loadAll();
+  </script>
+</body>
+</html>
+
+

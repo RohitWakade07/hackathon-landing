@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Overview — Admin</title>
+  <style>body{font-family:Arial;margin:12px} .card{background:#fff;padding:12px;border-radius:8px;margin-bottom:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}</style>
+</head>
+<body>
+  <h2>Dynamic Overview</h2>
+  <div id="stats" class="card">Loading...</div>
+  <script>
+    async function load(){
+      const token = new URLSearchParams(location.search).get('token');
+      const hdr = token ? '?token='+encodeURIComponent(token) : '';
+      try{
+        const s = await fetch('/admin/stats.json'+hdr).then(r=>r.json());
+        document.getElementById('stats').innerHTML = `<strong>Total:</strong> ${s.total || 0}<br/><strong>Recent:</strong><ul>${(s.recent||[]).map(r=>`<li>${r.teamName} — ${r.leaderName} (${r.timestamp})</li>`).join('')}</ul>`;
+      }catch(e){ document.getElementById('stats').textContent = 'Failed to load'; }
+    }
+    load();
+  </script>
+</body>
+</html>
+
+

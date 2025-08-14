@@ -31,7 +31,7 @@
 
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Times New Roman', Times, serif;
     background:
       linear-gradient(160deg,
         var(--c1) 0%, var(--c1) 40%,
@@ -40,6 +40,50 @@ body {
         var(--c4) 75%, var(--c4) 100%);
     color: var(--text);
     overflow-x: hidden;
+}
+
+/* Shared navbar/drawer styling */
+.pos-f-t { margin-bottom: 0; }
+.navbar-dark { background: #222 !important; }
+.bg-dark { background: #222 !important; }
+.navbar-toggler { border-color: #fff; }
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+.drawer-links a {
+    color: #08CB00 !important;
+    font-weight: 600;
+    font-size: 1.1em;
+    letter-spacing: 0.5px;
+    transition: color 0.2s, background 0.2s;
+    border-radius: 6px;
+    padding: 6px 12px;
+    text-decoration: none;
+    display: block;
+}
+.drawer-links a:hover { color: #08CB00 !important; background: transparent !important; }
+.drawer-title {
+    color: #08CB00 !important;
+    font-weight: 700;
+    font-size: 1.3em;
+}
+/* Make collapse drawer overlay page content instead of pushing it */
+.pos-f-t .collapse#navbarToggleExternalContent {
+    position: fixed;
+    top: 56px; /* below navbar */
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+    z-index: 1040;
+}
+/* Make the visible navbar just a floating toggle button (no bar) */
+nav.navbar { position: fixed; top: 12px; left: 12px; right: auto; background: transparent !important; box-shadow: none; padding: 0; min-height: 0; z-index: 1050; }
+nav.navbar.navbar-dark { background: transparent !important; }
+nav.navbar.bg-dark { background: transparent !important; }
+.navbar-toggler { background: rgba(34,34,34,0.85); border: 2px solid #000; border-radius: 10px; padding: 6px 10px; box-shadow: 0 0 0 2px rgba(0,0,0,0.4) inset; }
+@media (max-width: 600px) {
+    .pos-f-t .collapse#navbarToggleExternalContent { top: 52px; max-height: calc(100vh - 52px); }
 }
 
 html { scroll-behavior: smooth; }
@@ -51,15 +95,44 @@ canvas#bgCanvas {
     z-index: -1;
 }
 
+/* Accessibility & base improvements */
+img{max-width:100%;}
+*{outline-color: #478c6a;}
+button, .btn { will-change: transform; }
+
 .hero {
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     flex-direction: column;
-    padding: 100px 20px;
+    padding: 70px 20px;
     animation: fadeIn 1.5s ease-in-out;
 }
+
+/* Header logo row */
+.logo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 14px 0 0;
+    flex-wrap: wrap;
+}
+.logo-row img {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    max-height: 80px;
+    object-fit: contain;
+    padding: 8px;
+}
+
+/* brand strip variant used on homepage header */
+.brand-strip { display:flex; justify-content:center; align-items:center; gap:18px; margin: 8px 0 2px; }
+.brand-strip img { max-height: 96px; background:#fff; border-radius:12px; padding:6px 10px; box-shadow:0 2px 12px rgba(0,0,0,0.08); }
+/* remove background/padding for images that should be clean (e.g., photographs) */
+.brand-strip img.no-bg, .image-row img.no-bg { background: transparent; box-shadow: none; padding: 0; border-radius: 8px; }
 
 .countdown {
     display: inline-grid;
@@ -117,6 +190,9 @@ canvas#bgCanvas {
     border-radius: 50px;
     text-decoration: none;
     transition: 0.3s;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
 }
 .btn:hover {
     background: var(--accent-2);
@@ -129,6 +205,9 @@ canvas#bgCanvas {
     border: 1px solid var(--accent);
     margin-top: 8px;
     padding: 10px 16px;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
 }
 .btn-ghost:hover { background: var(--accent); color: #1E201E; }
 

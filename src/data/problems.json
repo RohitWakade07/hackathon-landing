@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ai-driven-leaf-health-assessment-damage--9oph",
+    "track": "Track 1",
+    "title": "AI-Driven Leaf Health Assessment, Damage Quantification, and Leaf Area Index Calculation",
+    "description": "nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+    "outcomes": [
+      "A web-based prototype where a user can:",
+      "1. Upload a leaf image from any crop.",
+      "2. Receive a report listing all detected diseases/pest damages (multi-label classification).",
+      "3. View the scale of damage for each detected condition, represented both as a descriptive category (e.g., low, moderate, severe) and as an approximate percentage of leaf area affected.",
+      "4. Calculate the Leaf Area Index (LAI) from the uploaded image.",
+      "5. See an overlaid segmentation mask highlighting the affected regions."
+    ],
+    "datasets": [
+      "Problem statement 1: Image Detection + Segmentation Needed (Quantification of Disease on a Scale) -> Solves the problem specially for phenotyping purposes",
+      "Some datasets:",
+      "1. PlantDoc Dataset (Excellent for Multi-Label & Indian Context)",
+      "Why it's perfect: This dataset was created by researchers at IIT and is specifically designed for Indian conditions. It contains 2,598 images across 13 plant species and 30 classes, making it ideal for practicing your multi-label classification goal.",
+      "Source: GitHub",
+      "Link: https://github.com/pratikkayal/PlantDoc-Dataset",
+      "2. PlantVillage Dataset (The Gold Standard)",
+      "Why it's perfect: This is the most famous dataset, containing over 54,000 images of 14 different crop species and 26 diseases. The images have a clean, uniform background, which makes it an excellent dataset to start with when you are building and training your first segmentation models.",
+      "Source: Kaggle / GitHub",
+      "Link: https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset",
+      "3. CCMT Dataset (Massive & Diverse)",
+      "Why it's perfect: This is a huge dataset with over 100,000 images covering 22 disease classes across four major crops. Its sheer size and diversity are great for training a robust model that can generalize well.",
+      "Source: Mendeley Data",
+      "Link: https://doi.org/10.17632/bwh3zbpkpv.1"
+    ]
+  }
+]

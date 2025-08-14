@@ -32,7 +32,7 @@ resize();
 window.addEventListener("resize", resize);
 
 let particles = [];
-const PARTICLE_COUNT = canvas ? Math.max(50, Math.floor(window.innerWidth / 18)) : 0;
+const PARTICLE_COUNT = canvas ? Math.max(40, Math.floor(window.innerWidth / 22)) : 0;
 
 if (canvas) {
         for (let i = 0; i < PARTICLE_COUNT; i++) {

@@ -4,15 +4,80 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 const ExcelJS = require('exceljs');
+const Database = require('better-sqlite3');
+const { z } = require('zod');
 
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const app = express();
-app.use(express.static(__dirname));
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const compression = require('compression');
+
+// Security and performance middleware
+app.use(helmet());
+app.use(compression());
+app.use(rateLimit({ windowMs: 60 * 1000, max: 120 }));
+
+// Serve only public assets (no server code/data)
+app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images'), { maxAge: '30d', etag: true }));
+app.use('/', express.static(__dirname, { maxAge: '1h', etag: true, extensions: ['html'] , setHeaders(res, path){
+  // prevent serving sensitive files by default
+  const deny = [/server\.js$/, /data\.db$/, /data\.xlsx$/, /server\.log$/, /uploads\//];
+  if (deny.some(r=>r.test(path))) {
+    res.status(403);
+  }
+}}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// simple file logger to help debug in environments where foreground logs are hard to view
+const logFile = path.join(__dirname, 'server.log');
+function logLine(message, obj) {
+    const time = new Date().toISOString();
+    let line = `[${time}] ${message}`;
+    if (obj !== undefined) {
+        try { line += ' ' + JSON.stringify(obj); } catch (_) {}
+    }
+    fs.appendFileSync(logFile, line + "\n");
+}
+
+// Development convenience: default ADMIN_TOKEN when not set
+const DEFAULT_ADMIN_TOKEN = '500600RSW@';
+if (!process.env.ADMIN_TOKEN) {
+    process.env.ADMIN_TOKEN = DEFAULT_ADMIN_TOKEN;
+    logLine('ADMIN_TOKEN not set; defaulting to ' + DEFAULT_ADMIN_TOKEN);
+}
+
 const filePath = path.join(__dirname, "data.xlsx");
-const uploadDir = path.join(__dirname, "uploads");
+// Move uploads out of static serving path
+const uploadDir = path.join(__dirname, "..", "uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
+
+// Initialize SQLite DB
+const dbPath = path.join(__dirname, 'data.db');
+const db = new Database(dbPath);
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS participants (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        teamName TEXT,
+        teamSize TEXT,
+        leaderName TEXT,
+        phone TEXT,
+        email TEXT,
+        college TEXT,
+        year TEXT,
+        track TEXT,
+        github TEXT,
+        experience TEXT,
+        members TEXT,
+        projectIdea TEXT,
+        agree TEXT,
+        consent TEXT,
+        ppt_path TEXT,
+        timestamp TEXT
+    )
+`).run();
+logLine('SQLite initialized at ' + dbPath);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) { cb(null, uploadDir); },
@@ -27,15 +92,38 @@ const upload = multer({
     storage,
     limits: { fileSize: 10 * 1024 * 1024 },
     fileFilter: (req, file, cb) => {
-        const allowed = ['.ppt', '.pptx', '.pdf'];
+        const allowedExt = ['.ppt', '.pptx', '.pdf'];
+        const allowedMime = ['application/vnd.ms-powerpoint','application/vnd.openxmlformats-officedocument.presentationml.presentation','application/pdf'];
         const ext = path.extname(file.originalname || '').toLowerCase();
-        if (allowed.includes(ext)) return cb(null, true);
+        if (allowedExt.includes(ext) && (allowedMime.includes(file.mimetype))) return cb(null, true);
         cb(new Error('Invalid file type'));
     }
 });
 
 app.post("/submit", upload.single('ppt'), async (req, res) => {
     try {
+        // Validate and sanitize input
+        const schema = z.object({
+            teamName: z.string().min(1).max(100),
+            teamSize: z.string().regex(/^([1-5])$/),
+            name: z.string().min(1).max(100),
+            phone: z.string().regex(/^\d{10}$/),
+            email: z.string().email().max(200),
+            college: z.string().min(1).max(150),
+            year: z.string().max(20).optional(),
+            track: z.string().min(1).max(80),
+            github: z.string().url().max(300).optional().or(z.literal('')).optional(),
+            experience: z.string().max(30).optional(),
+            members: z.string().max(500).optional(),
+            projectIdea: z.string().max(2000).optional(),
+            agree: z.any().optional(),
+            consent: z.any().optional(),
+        });
+        const parsed = schema.safeParse(req.body);
+        if (!parsed.success) {
+            return res.status(400).json({ message: 'Invalid submission', issues: parsed.error.issues });
+        }
+        const data = parsed.data;
         let workbook, worksheet;
         if (fs.existsSync(filePath)) {
             workbook = new ExcelJS.Workbook();
@@ -60,32 +148,144 @@ app.post("/submit", upload.single('ppt'), async (req, res) => {
         }
 
         worksheet.addRow([
-            req.body.teamName || "",
-            req.body.teamSize || "",
-            req.body.name || "",
-            req.body.phone || "",
-            req.body.email || "",
-            req.body.college || "",
-            req.body.year || "",
-            req.body.track || "",
-            req.body.github || "",
-            req.body.experience || "",
-            req.body.members || "",
-            req.body.projectIdea || "",
-            req.body.agree ? "Yes" : "No",
-            req.body.consent ? "Yes" : "No",
+            data.teamName || "",
+            data.teamSize || "",
+            data.name || "",
+            data.phone || "",
+            data.email || "",
+            data.college || "",
+            data.year || "",
+            data.track || "",
+            data.github || "",
+            data.experience || "",
+            data.members || "",
+            data.projectIdea || "",
+            data.agree ? "Yes" : "No",
+            data.consent ? "Yes" : "No",
             req.file ? path.relative(__dirname, req.file.path) : "",
             new Date().toISOString()
         ]);
         await workbook.xlsx.writeFile(filePath);
 
-        console.log("📥 New Registration:", req.body);
+        // also insert into sqlite
+        try {
+            const insert = db.prepare(`INSERT INTO participants
+                (teamName, teamSize, leaderName, phone, email, college, year, track, github, experience, members, projectIdea, agree, consent, ppt_path, timestamp)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+            const info = insert.run(
+                data.teamName || '',
+                data.teamSize || '',
+                data.name || '',
+                data.phone || '',
+                data.email || '',
+                data.college || '',
+                data.year || '',
+                data.track || '',
+                data.github || '',
+                data.experience || '',
+                data.members || '',
+                data.projectIdea || '',
+                data.agree ? 'Yes' : 'No',
+                data.consent ? 'Yes' : 'No',
+                req.file ? path.relative(__dirname, req.file.path) : '',
+                new Date().toISOString()
+            );
+            logLine('SQLite insert success', { lastInsertRowid: info.lastInsertRowid, changes: info.changes });
+        } catch (dbErr) {
+            console.error('SQLite insert error:', dbErr);
+            logLine('SQLite insert error', { error: String(dbErr && dbErr.message || dbErr) });
+        }
+
+        // Avoid logging PII in plaintext
+        logLine('New Registration', { teamName: req.body.teamName, teamSize: req.body.teamSize, track: req.body.track });
         res.json({ message: "✅ Registration Successful!" });
     } catch (err) {
         console.error("Error saving registration:", err);
+        logLine('Submit handler error', { error: String(err && err.message || err) });
         res.status(500).json({ message: "❌ Server error. Could not save registration." });
     }
 });
 
+// Serve admin static pages
+app.use('/admin', express.static(path.join(__dirname, 'admin')));
+
+// helper: require admin token
+function requireAdmin(req, res, next) {
+    const token = req.get('x-admin-token') || req.query.token;
+    if (!process.env.ADMIN_TOKEN) {
+        return res.status(500).json({ message: 'Admin token not configured on server' });
+    }
+    if (!token || token !== process.env.ADMIN_TOKEN) return res.status(401).json({ message: 'Unauthorized' });
+    next();
+}
+
+// API: participants (protected)
+app.get('/admin/participants.json', requireAdmin, (req, res) => {
+    try {
+        const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
+        res.json(rows);
+    } catch (e) {
+        res.status(500).json({ message: 'DB read error' });
+    }
+});
+
+// Duplicate API under /api/admin to avoid conflicts with static /admin/*
+app.get('/api/admin/participants', requireAdmin, (req, res) => {
+    try {
+        const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
+        res.json(rows);
+    } catch (e) {
+        res.status(500).json({ message: 'DB read error' });
+    }
+});
+
+// API: stats
+app.get('/admin/stats.json', requireAdmin, (req, res) => {
+    try {
+        const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
+        const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
+        res.json({ total, recent });
+    } catch (e) {
+        res.status(500).json({ message: 'DB read error' });
+    }
+});
+
+app.get('/api/admin/stats', requireAdmin, (req, res) => {
+    try {
+        const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
+        const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
+        res.json({ total, recent });
+    } catch (e) {
+        res.status(500).json({ message: 'DB read error' });
+    }
+});
+
+// Problems API (public read, admin write)
+const problemsFile = path.join(__dirname, 'data', 'problems.json');
+app.get('/api/problems', (req, res) => {
+    try {
+        if (!fs.existsSync(problemsFile)) return res.json([]);
+        const data = fs.readFileSync(problemsFile, 'utf8');
+        res.type('json').send(data);
+    } catch (e) {
+        res.status(500).json({ message: 'Could not read problems' });
+    }
+});
+
+app.post('/api/problems', requireAdmin, express.json(), (req, res) => {
+    try {
+        const arr = req.body;
+        fs.mkdirSync(path.join(__dirname, 'data'), { recursive: true });
+        fs.writeFileSync(problemsFile, JSON.stringify(arr, null, 2), 'utf8');
+        res.json({ message: 'OK' });
+    } catch (e) {
+        res.status(500).json({ message: 'Could not write problems' });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+    const msg = `🚀 Server running on http://localhost:${PORT}`;
+    console.log(msg);
+    logLine('Server started', { port: PORT });
+});

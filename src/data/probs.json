@@ -1,0 +1,18 @@
+[
+  {
+    "id": "track1-p1",
+    "track": "Track 1",
+    "title": "AI-Driven Leaf Health Assessment",
+    "summary": "Detect diseases and calculate leaf area affected with segmentation",
+    "details": "Develop a lightweight AI system that analyses crop leaf images to identify diseases and estimate affected area."
+  },
+  {
+    "id": "track2-p1",
+    "track": "Track 2",
+    "title": "Farmer Assistant (RAG)",
+    "summary": "RAG-based query app over agronomy docs",
+    "details": "Build a retrieval-augmented generation assistant to answer farmer queries in multiple languages."
+  }
+]
+
+
