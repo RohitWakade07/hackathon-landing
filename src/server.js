@@ -5,7 +5,12 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 const multer = require("multer");
 const ExcelJS = require('exceljs');
-const Database = require('better-sqlite3');
+let Database = null;
+try {
+    Database = require('better-sqlite3');
+} catch (e) {
+    console.log('SQLite not available, continuing without it');
+}
 const { Pool } = require('pg');
 const { z } = require('zod');
 
@@ -84,30 +89,43 @@ const uploadDir = path.join(DATA_DIR, "uploads");
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
 // Initialize databases: Prefer Postgres (Supabase) if configured, else use SQLite
-const dbPath = path.join(DATA_DIR, 'data.db');
-const db = new Database(dbPath);
-db.prepare(`
-    CREATE TABLE IF NOT EXISTS participants (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        teamName TEXT,
-        teamSize TEXT,
-        leaderName TEXT,
-        phone TEXT,
-        email TEXT,
-        college TEXT,
-        year TEXT,
-        track TEXT,
-        github TEXT,
-        experience TEXT,
-        members TEXT,
-        projectIdea TEXT,
-        agree TEXT,
-        consent TEXT,
-        ppt_path TEXT,
-        timestamp TEXT
-    )
-`).run();
-logLine('SQLite initialized at ' + dbPath);
+let db = null;
+let dbPath = null;
+
+if (Database) {
+    try {
+        dbPath = path.join(DATA_DIR, 'data.db');
+        db = new Database(dbPath);
+        db.prepare(`
+            CREATE TABLE IF NOT EXISTS participants (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                teamName TEXT,
+                teamSize TEXT,
+                leaderName TEXT,
+                phone TEXT,
+                email TEXT,
+                college TEXT,
+                year TEXT,
+                track TEXT,
+                github TEXT,
+                experience TEXT,
+                members TEXT,
+                projectIdea TEXT,
+                agree TEXT,
+                consent TEXT,
+                ppt_path TEXT,
+                timestamp TEXT
+            )
+        `).run();
+        logLine('SQLite initialized at ' + dbPath);
+    } catch (sqliteError) {
+        logLine('SQLite initialization failed, continuing without SQLite', { error: String(sqliteError && sqliteError.message || sqliteError) });
+        db = null;
+        dbPath = null;
+    }
+} else {
+    logLine('SQLite not available, continuing without it');
+}
 
 let pgPool = null;
 const PG_URL = process.env.SUPABASE_DB_URL || process.env.DATABASE_URL || '';
@@ -274,7 +292,7 @@ app.post("/submit", upload.single('ppt'), async (req, res) => {
             } catch (e) {
                 logLine('Postgres insert error', { error: String(e && e.message || e) });
             }
-        } else {
+        } else if (db) {
             try {
                 const insert = db.prepare(`INSERT INTO participants
                     (teamName, teamSize, leaderName, phone, email, college, year, track, github, experience, members, projectIdea, agree, consent, ppt_path, timestamp)
@@ -302,6 +320,8 @@ app.post("/submit", upload.single('ppt'), async (req, res) => {
                 console.error('SQLite insert error:', dbErr);
                 logLine('SQLite insert error', { error: String(dbErr && dbErr.message || dbErr) });
             }
+        } else {
+            logLine('No database available for insert', { warning: 'Data only saved to Excel file' });
         }
 
         // Avoid logging PII in plaintext
@@ -339,8 +359,12 @@ app.get('/admin/participants.json', requireAdmin, async (req, res) => {
             const r = await pgPool.query('SELECT * FROM participants ORDER BY id DESC');
             return res.json(r.rows);
         }
-        const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
-        res.json(rows);
+        if (db) {
+            const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
+            res.json(rows);
+        } else {
+            res.json([]);
+        }
     } catch (e) {
         res.status(500).json({ message: 'DB read error' });
     }
@@ -353,8 +377,12 @@ app.get('/api/admin/participants', requireAdmin, async (req, res) => {
             const r = await pgPool.query('SELECT * FROM participants ORDER BY id DESC');
             return res.json(r.rows);
         }
-        const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
-        res.json(rows);
+        if (db) {
+            const rows = db.prepare('SELECT * FROM participants ORDER BY id DESC').all();
+            res.json(rows);
+        } else {
+            res.json([]);
+        }
     } catch (e) {
         res.status(500).json({ message: 'DB read error' });
     }
@@ -368,9 +396,13 @@ app.get('/admin/stats.json', requireAdmin, async (req, res) => {
             const recent = await pgPool.query('SELECT * FROM participants ORDER BY id DESC LIMIT 5');
             return res.json({ total: totalRow.rows[0].c, recent: recent.rows });
         }
-        const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
-        const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
-        res.json({ total, recent });
+        if (db) {
+            const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
+            const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
+            res.json({ total, recent });
+        } else {
+            res.json({ total: 0, recent: [] });
+        }
     } catch (e) {
         res.status(500).json({ message: 'DB read error' });
     }
@@ -383,9 +415,13 @@ app.get('/api/admin/stats', requireAdmin, async (req, res) => {
             const recent = await pgPool.query('SELECT * FROM participants ORDER BY id DESC LIMIT 5');
             return res.json({ total: totalRow.rows[0].c, recent: recent.rows });
         }
-        const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
-        const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
-        res.json({ total, recent });
+        if (db) {
+            const total = db.prepare('SELECT COUNT(*) as c FROM participants').get().c;
+            const recent = db.prepare('SELECT * FROM participants ORDER BY id DESC LIMIT 5').all();
+            res.json({ total, recent });
+        } else {
+            res.json({ total: 0, recent: [] });
+        }
     } catch (e) {
         res.status(500).json({ message: 'DB read error' });
     }
