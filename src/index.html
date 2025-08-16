@@ -1,106 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VIT Pune Hackathon 2025</title>
-    <link rel="stylesheet" href="style.css"/>
-          
-            <!-- Bootstrap 4 CDN -->
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-             <script defer src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-             <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-            <style>
-                /* DSSA logo padding fix */
-                .brand-strip img:first-child {
-                    padding: 0 !important;
-                    margin: 0 !important;
-                }
-                /* Click here button styles for track cards */
-                .track-card .track-btn {
-                    display: inline-block;
-                    margin-top: 12px;
-                    padding: 12px 28px;
-                    background: #08CB00;
-                    color: #222;
-                    font-weight: bold;
-                    border-radius: 50px;
-                    text-decoration: none;
-                    font-size: 1.1em;
-                    border: none;
-                    transition: background 0.2s, color 0.2s;
-                }
-                .track-card .track-btn:hover {
-                    background: #556B2F;
-                    color: #fff;
-                }
-                .pos-f-t { margin-bottom: 0; }
-                .navbar-dark { background: #222 !important; }
-                .bg-dark { background: #222 !important; }
-                .navbar-toggler { border-color: #fff; }
-                .navbar-toggler-icon {
-                    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-                }
-                .drawer-links a {
-                    color: #08CB00 !important;
-                    background: transparent !important;
-                    font-weight: 600;
-                    font-size: 1.1em;
-                    letter-spacing: 0.5px;
-                    border-radius: 6px;
-                    padding: 6px 12px;
-                    text-decoration: none;
-                    display: block;
-                    transition: none;
-                }
-                /* Remove hover effect, keep green color fixed */
-                .drawer-links a:hover {
-                    color: #08CB00 !important;
-                    background: transparent !important;
-                }
-                .drawer-title {
-                    color: #08CB00 !important;
-                    font-weight: 700;
-                    font-size: 1.3em;
-                }
-                /* Add container to nav section for better layout */
-                .nav-container {
-                    max-width: 1200px;
-                    margin: 0 auto;
-                    padding: 0 16px;
-                }
-            </style>
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Bootstrap 4 CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* DSSA logo padding fix */
+        .brand-strip img:first-child {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Click here button styles for track cards */
+        .track-card .track-btn {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 12px 28px;
+            background: #08CB00;
+            color: #222;
+            font-weight: bold;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1em;
+            border: none;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .track-card .track-btn:hover {
+            background: #556B2F;
+            color: #fff;
+        }
+
+        .pos-f-t {
+            margin-bottom: 0;
+        }
+
+        .navbar-dark {
+            background: #222 !important;
+        }
+
+        .bg-dark {
+            background: #222 !important;
+        }
+
+        .navbar-toggler {
+            border-color: #fff;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        .drawer-links a {
+            color: #08CB00 !important;
+            background: transparent !important;
+            font-weight: 600;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+            border-radius: 6px;
+            padding: 6px 12px;
+            text-decoration: none;
+            display: block;
+            transition: none;
+        }
+
+        /* Remove hover effect, keep green color fixed */
+        .drawer-links a:hover {
+            color: #08CB00 !important;
+            background: transparent !important;
+        }
+
+        .drawer-title {
+            color: #08CB00 !important;
+            font-weight: 700;
+            font-size: 1.3em;
+        }
+
+        /* Add container to nav section for better layout */
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+    </style>
 </head>
+
 <body>
-        <div class="nav-container">
-            <div class="pos-f-t">
-                <div class="collapse" id="navbarToggleExternalContent">
-                    <div class="bg-dark p-4">
-                        <h4 class="drawer-title">Hackathon 2025</h4>
-                        <div class="mt-3 drawer-links">
-                            <a href="index.html" class="mb-2">Home</a>
-                            <a href="#about" class="mb-2">About</a>
-                            <a href="FAQ.html" class="mb-2">FAQ</a>
-                            <a href="problems.html" class="mb-2">Problems</a>
-                            <a href="#contact">Contact Us</a>
-                            <a href="team.html">Organizers</a>
-                        </div>
+    <div class="nav-container">
+        <div class="pos-f-t">
+            <div class="collapse" id="navbarToggleExternalContent">
+                <div class="bg-dark p-4">
+                    <h4 class="drawer-title">Hackathon 2025</h4>
+                    <div class="mt-3 drawer-links">
+                        <a href="index.html" class="mb-2">Home</a>
+                        <a href="#about" class="mb-2">About</a>
+                        <a href="FAQ.html" class="mb-2">FAQ</a>
+                        <a href="problems.html" class="mb-2">Problems</a>
+                        <a href="#contact">Contact Us</a>
+                        <a href="team.html">Organizers</a>
                     </div>
                 </div>
-                <nav class="navbar navbar-dark bg-dark">
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </nav>
             </div>
+            <nav class="navbar navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
         </div>
-    <canvas id="bgCanvas"></canvas>
-
-    <header class="hero">
         <div class="brand-strip">
             <img class="no-bg" src="images/clg_logo.jpg" alt="College Logo" />
             <img src="images/DSSA_VIT.jpg" alt="DSSA VIT" />
         </div>
+    </div>
+    <canvas id="bgCanvas"></canvas>
+
+    <header class="hero">
         <h1 class="title">VIT Pune Hackathon 2025</h1>
         <p class="subtitle">In association with <strong>Agharkar Research Institute (ARI)</strong></p>
         <p class="date">Starts 29 August 2025 • 36 hours • VIT Pune Campus</p>
@@ -111,9 +135,9 @@
             <div><span id="cd-secs">--</span><label>Seconds</label></div>
         </div>
         <p class="tagline">Innovate. Integrate. Inspire.</p>
-                <div class="register-container">
-                    <a href="#register" class="btn">Register Now</a>
-                </div>
+        <div class="register-container">
+            <a href="#register" class="btn">Register Now</a>
+        </div>
     </header>
 
     <section id="about">
@@ -135,7 +159,8 @@
         <h2 class="section-heading">Tracks</h2>
         <div class="tracks-grid">
             <div class="track-card">
-                <img src="images/Data_science_visualization_an_analytics.png" alt="Data science visualization and analytics"/>
+                <img src="images/Data_science_visualization_an_analytics.png"
+                    alt="Data science visualization and analytics" />
                 <div class="track-content">
                     <h3>Track 1: Implementing AIML in Agriculture</h3>
                     <p class="badge">Specialized for Data Science students</p>
@@ -149,12 +174,12 @@
                         <li>Recommended stack: Python, pandas, scikit-learn, PyTorch/TensorFlow, MLflow</li>
                         <li>Deliverables: Model notebook/report, metrics dashboard, and insights brief</li>
                     </ul>
-                        <a class="track-btn" href="problems.html">Click here</a>
+                    <a class="track-btn" href="problems.html">Click here</a>
                 </div>
             </div>
 
             <div class="track-card">
-                <img src="images/Modern_agriculture_technology.jpg" alt="Modern agriculture technology"/>
+                <img src="images/Modern_agriculture_technology.jpg" alt="Modern agriculture technology" />
                 <div class="track-content">
                     <h3>Track 2A: Web & AI Applications</h3>
                     <p>
@@ -166,11 +191,12 @@
                         <li>Recommended stack: React/Vue, Node/Flask/FastAPI, vector DBs, LLM tooling</li>
                         <li>Deliverables: Deployed demo, architecture overview, and usage guide</li>
                     </ul>
-                        <a class="track-btn" href="problems.html">Click here</a>
+                    <a class="track-btn" href="problems.html">Click here</a>
                 </div>
             </div>
         </div>
-        <p class="note">Note: <strong>Track 1</strong> is specialized for <strong>Data Science</strong> students. Teams may include members from other branches.</p>
+        <p class="note">Note: <strong>Track 1</strong> is specialized for <strong>Data Science</strong> students. Teams
+            may include members from other branches.</p>
     </section>
 
     <section id="agrithon">
@@ -188,7 +214,7 @@
     </section>
 
     <section id="problems">
-    <!-- Problem statements moved to problems.html -->
+        <!-- Problem statements moved to problems.html -->
     </section>
 
     <section id="prizes">
@@ -223,7 +249,7 @@
 
                 <div class="form-field">
                     <label>Leader Full Name</label>
-            <input type="text" name="name" placeholder="Full Name" required />
+                    <input type="text" name="name" placeholder="Full Name" required />
                 </div>
                 <div class="form-field">
                     <label>Phone</label>
@@ -250,8 +276,8 @@
                 </div>
                 <div class="form-field">
                     <label>Track</label>
-            <select name="track" required>
-                <option value="">Select Track</option>
+                    <select name="track" required>
+                        <option value="">Select Track</option>
                         <option value="Track 1: Data Science">Track 1: Data Science</option>
                         <option value="Track 2A: Web & AI Applications">Track 2A: Web & AI Applications</option>
                     </select>
@@ -266,7 +292,7 @@
                         <option>Beginner</option>
                         <option>Intermediate</option>
                         <option>Advanced</option>
-            </select>
+                    </select>
                 </div>
                 <div class="form-field form-wide">
                     <label>Team Members (name2,name3,name4,name5)</label>
@@ -282,7 +308,8 @@
                         <input id="pptInput" type="file" name="ppt" accept=".ppt,.pptx,.pdf" hidden />
                         <div class="upload-icon">⬆</div>
                         <div class="upload-text">
-                            <strong>Drag & drop</strong> your presentation here, or <span class="link-like">browse</span>
+                            <strong>Drag & drop</strong> your presentation here, or <span
+                                class="link-like">browse</span>
                             <div class="upload-sub">Accepted: .ppt, .pptx, .pdf · Max 10 MB</div>
                             <div id="uploadFileName" class="upload-file-name"></div>
                         </div>
@@ -290,7 +317,8 @@
                 </div>
                 <div class="form-check form-wide">
                     <label>
-                        <input type="checkbox" name="agree" required /> I agree to the <a href="rulebook.html">hackathon rules </a> and code of conduct
+                        <input type="checkbox" name="agree" required /> I agree to the <a href="rulebook.html">hackathon
+                            rules </a> and code of conduct
                     </label>
                 </div>
                 <div class="form-check form-wide">
@@ -308,7 +336,8 @@
         <p>© 2025 VIT Pune Hackathon · In association with ARI</p>
     </footer>
 
-    
+
     <script src="script.js"></script>
 </body>
+
 </html>

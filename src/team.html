@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Team | HackNova 2025</title>
+  <link rel="stylesheet" href="style.css"/>
 
   <!-- Bootstrap 4 CDN -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <script defer src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
     body {
-      background: #fff;
+      background: #fbf9f9;
       font-family: 'Inter', Arial, sans-serif;
       color: #222;
       margin: 0;
     }
-    
+
     .image-row {
       display: flex;
       justify-content: center;
@@ -27,17 +29,20 @@
       padding: 32px 0 16px;
       flex-wrap: wrap;
     }
+
     .image-row img {
       background: #fff;
       border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
       max-height: 120px;
       object-fit: contain;
       padding: 8px;
     }
+
     .whatsapp-img {
       filter: brightness(1.1) contrast(1.2);
     }
+
     .section-heading {
       text-align: center;
       font-size: 2em;
@@ -45,6 +50,7 @@
       color: #253900;
       font-weight: 700;
     }
+
     .team-grid {
       display: flex;
       flex-wrap: wrap;
@@ -52,69 +58,149 @@
       justify-content: center;
       margin-bottom: 48px;
     }
+
     .team-card {
       background: #fff;
       border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(8,203,0,0.08);
+      box-shadow: 0 4px 24px rgba(8, 203, 0, 0.08);
       padding: 32px 24px;
       min-width: 240px;
       max-width: 320px;
       text-align: center;
       transition: transform 0.3s, box-shadow 0.3s;
     }
+
     .team-card:hover {
       transform: translateY(-8px) scale(1.04);
-      box-shadow: 0 8px 32px rgba(8,203,0,0.18);
+      box-shadow: 0 8px 32px rgba(8, 203, 0, 0.18);
     }
+
     .team-card h3 {
       margin-bottom: 10px;
       font-size: 1.2em;
       color: #08CB00;
       font-weight: 600;
     }
+
     .team-card .name {
       font-size: 1.1em;
       color: #222;
       font-weight: 700;
       margin-bottom: 4px;
     }
+
     .team-card .desc {
       font-size: 0.98em;
       color: #555;
       margin-top: 8px;
     }
+
     @media (max-width: 700px) {
-      .team-card { min-width: 90vw; max-width: 98vw; }
+      .team-card {
+        min-width: 90vw;
+        max-width: 98vw;
+      }
+    }
+
+    .pos-f-t {
+      margin-bottom: 0;
+    }
+
+    .navbar-dark {
+      background: #222 !important;
+    }
+
+    .bg-dark {
+      background: #222 !important;
+    }
+
+    .navbar-toggler {
+      border-color: #fff;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+      background-color: #131313;
+      border-radius: 5px;
+    }
+
+    .drawer-links a {
+      color: #08CB00 !important;
+      background: transparent !important;
+      font-weight: 600;
+      font-size: 1.1em;
+      letter-spacing: 0.5px;
+      border-radius: 6px;
+      padding: 6px 12px;
+      text-decoration: none;
+      display: block;
+      transition: none;
+    }
+
+    /* Remove hover effect, keep green color fixed */
+    .drawer-links a:hover {
+      color: #08CB00 !important;
+      background: transparent !important;
+    }
+
+    .drawer-title {
+      color: #08CB00 !important;
+      font-weight: 700;
+      font-size: 1.3em;
+    }
+
+    /* Add container to nav section for better layout */
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .brand-strip{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 12px;
+      background-color: #fbf9f9; /* Ensures solid background */
+      z-index: 1030;
+    }
+    .brand-strip img {
+      border: 1.5px solid rgba(189, 188, 188, 0.1);
+      border-radius: 10px;
     }
   </style>
 </head>
+
 <body>
 
-  <nav class="navbar navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</nav>
-<div class="pos-f-t">
-<div class="collapse" id="navbarToggleExternalContent">
-    <div class="bg-dark p-4">
-        <h4 class="drawer-title">HackNova 2025</h4>
-        <div class="mt-3 drawer-links">
+  <div class="nav-container">
+    <div class="pos-f-t">
+      <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-dark p-4">
+          <h4 class="drawer-title">Hackathon 2025</h4>
+          <div class="mt-3 drawer-links">
             <a href="index.html" class="mb-2">Home</a>
             <a href="#about" class="mb-2">About</a>
             <a href="FAQ.html" class="mb-2">FAQ</a>
             <a href="problems.html" class="mb-2">Problems</a>
-            <a href="#contact" class="mb-2">Contact Us</a>
-            <a href="team.html" class="mb-2">Organizers</a>
+            <a href="#contact">Contact Us</a>
+            <a href="team.html">Organizers</a>
+          </div>
         </div>
+      </div>
+      <nav class="navbar navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </nav>
     </div>
-</div>
-
-  <!-- Logos -->
-  <div class="image-row">
-    <img class="no-bg" src="images/WhatsApp%20Image%202025-08-13%20at%2014.02.39_cda59fac.jpg" alt="Event" />
-    <img src="images/DSSA_VIT.jpg" alt="DSSA VIT Logo" />
   </div>
+  <div class="brand-strip" >
+      <img class="no-bg" src="images/clg_logo.jpg" alt="College Logo" />
+      <img src="images/DSSA_VIT.jpg" alt="DSSA VIT" />
+    </div>
 
   <!-- Team Section -->
   <section id="team">
@@ -124,16 +210,17 @@
 
   <script>
     const team = [
-      { role: "Director", name: "Prof. Dr. R. M. Jalnekar", desc: "Director, VIT Pune Visionary leader and mentor.",
-      img:"images/Dr-R-M-Jalnekar.jpg"
-       },
+      {
+        role: "Director", name: "Prof. Dr. R. M. Jalnekar", desc: "Director, VIT Pune Visionary leader and mentor.",
+        img: "images/Dr-R-M-Jalnekar.jpg"
+      },
       { role: "Head Of Department", name: "Prof. Deepa Abin", desc: "Head of Department, Computer Science and Engineering (Data Science), VIT Pune.", img: "images/Dr.Deepa_Abin.jpg" },
       { role: "Faculty Coordinator", name: "Sayali Prakash Shinde", desc: "Assistant Professor, Computer Science and Engineering (Data Science), VIT Pune.", img: "images/Sayali_Shinde.jpg" },
       { role: "Faculty Coordinator", name: "Ashwini Ranjit Nawadkar", desc: "Assistant Professor, Computer Science and Engineering (Data Science), VIT Pune.", img: "images/Ashwini_Nawadkar.jpg" },
       { role: "Industry Expert", name: "Dr. AOK", desc: "Industry expert and mentor from Agharkar Research Institute.", img: "https://example.com/aok.jpg" },
       { role: "Organizing Club", name: "DSSA", desc: "Student lead, managing logistics and communication." },
       { role: "Tech Lead", name: "Rohit Wakade", desc: "Full-stack developer, web and backend lead." },
-      
+
     ];
 
     function cardHTML(member) {
@@ -149,4 +236,5 @@
   </script>
 
 </body>
+
 </html>

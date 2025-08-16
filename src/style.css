@@ -43,7 +43,14 @@ body {
 }
 
 /* Shared navbar/drawer styling */
-.pos-f-t { margin-bottom: 0; }
+.nav-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1040;
+}
+.pos-f-t { margin-bottom: 0;}
 .navbar-dark { background: #222 !important; }
 .bg-dark { background: #222 !important; }
 .navbar-toggler { border-color: #fff; }
@@ -136,10 +143,38 @@ button, .btn { will-change: transform; }
 }
 
 /* brand strip variant used on homepage header */
-.brand-strip { display:flex; justify-content:center; align-items:center; gap:16px; margin: 8px auto 2px; width:100%; max-width:980px; flex-wrap: nowrap; padding: 0 12px; }
-.brand-strip img { flex:1 1 0; width:0; height: 64px; max-height:64px; background:#fff; border-radius:12px; padding:6px 8px; box-shadow:0 2px 12px rgba(0,0,0,0.08); object-fit: contain; box-sizing: border-box; }
-/* remove background/padding for images that should be clean (e.g., photographs) */
-.brand-strip img.no-bg, .image-row img.no-bg { background: transparent; box-shadow: none; padding: 0; border-radius: 8px; }
+/* .brand-strip { position: sticky; top: 0; display:flex; justify-content:center; align-items:center; gap:16px; margin: 8px auto 2px; width:100%; max-width:980px; flex-wrap: nowrap; padding: 0 12px; } */
+.brand-strip {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 12px;
+    background-color: white; /* Ensures solid background */
+    z-index: 1050;
+}
+
+.brand-strip img {
+    height: 64px;
+    max-height: 64px;
+    border-radius: 12px;
+    padding: 6px 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    object-fit: contain;
+    background: transparent;
+}
+
+.brand-strip img.no-bg,
+.image-row img.no-bg {
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 8px;
+}
 
 .countdown {
     display: inline-grid;
