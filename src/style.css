@@ -140,7 +140,7 @@ button, .btn { will-change: transform; }
     align-items: center;
     text-align: center;
     flex-direction: column;
-    padding: 70px 20px;
+    padding: 1px 20px;
     animation: fadeIn 1.5s ease-in-out;
 }
 

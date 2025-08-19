@@ -95,22 +95,24 @@
 
 <body>
     <div class="nav-container">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand drawer-title" href="index.html">Hackathon 2025</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-dark bg-dark" style="z-index:1060;">
+            <!-- Removed navbar-brand drawer-title -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDrawer" aria-controls="navbarDrawer" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto drawer-links">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="FAQ.html">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="problems.html">Problems</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="team.html">Organizers</a></li>
-                </ul>
-            </div>
         </nav>
+        <div class="collapse bg-dark" id="navbarDrawer" style="position:fixed;top:56px;left:0;right:0;z-index:1059;">
+            <div class="p-4">
+                <div class="drawer-links">
+                    <a href="index.html" class="mb-2">Home</a>
+                    <a href="#about" class="mb-2">About</a>
+                    <a href="FAQ.html" class="mb-2">FAQ</a>
+                    <a href="problems.html" class="mb-2">Problems</a>
+                    <a href="#contact">Contact Us</a>
+                    <a href="team.html">Organizers</a>
+                </div>
+            </div>
+        </div>
         <div class="brand-strip">
             <img class="no-bg" src="images/clg_logo.jpg" alt="College Logo" />
             <img src="images/DSSA_VIT.jpg" alt="DSSA VIT" />
