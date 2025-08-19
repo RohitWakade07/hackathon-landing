@@ -1,3 +1,23 @@
+/* Responsive navbar and brand strip spacing */
+.navbar-spacer {
+    height: 120px;
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    .navbar-spacer {
+        height: 140px;
+    }
+    .nav-container {
+        position: static;
+    }
+    .brand-strip {
+        position: static;
+        flex-direction: column;
+        gap: 8px;
+        padding: 8px 0;
+    }
+}
 /* Register button container styling for index.html */
 .register-container {
     display: flex;
@@ -85,7 +105,7 @@ body {
     z-index: 1040;
 }
 /* Make the visible navbar just a floating toggle button (no bar) */
-nav.navbar { position: fixed; top: 12px; left: 12px; right: auto; background: transparent !important; box-shadow: none; padding: 0; min-height: 0; z-index: 1050; }
+nav.navbar { position: fixed; top: 12px; left: 12px; right: auto; background: transparent !important; box-shadow: none; padding: 0; min-height: 0; z-index: 1060; }
 nav.navbar.navbar-dark { background: transparent !important; }
 nav.navbar.bg-dark { background: transparent !important; }
 .navbar-toggler { background: rgba(34,34,34,0.85); border: 2px solid #000; border-radius: 10px; padding: 6px 10px; box-shadow: 0 0 0 2px rgba(0,0,0,0.4) inset; }
@@ -156,6 +176,7 @@ button, .btn { will-change: transform; }
     padding: 8px 12px;
     background-color: white; /* Ensures solid background */
     z-index: 1050;
+    margin-left: 2%;
 }
 
 .brand-strip img {
