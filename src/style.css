@@ -1,39 +1,183 @@
 /* Responsive navbar and brand strip spacing */
 .navbar-spacer {
-    height: 120px;
+    height: 0;
     width: 100%;
 }
 
 @media (max-width: 991px) {
     .navbar-spacer {
-        height: 140px;
-    }
-    .nav-container {
-        position: static;
-    }
-    .brand-strip {
-        position: static;
-        flex-direction: column;
-        gap: 8px;
-        padding: 8px 0;
+        height: 0;
     }
 }
-/* Register button container styling for index.html */
+
+/* Unified Button System - Robust and Consistent */
+.btn {
+    display: inline-block;
+    padding: 16px 32px;
+    background: var(--accent);
+    color: #1E201E;
+    font-weight: bold;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+    border: 2px solid transparent;
+    font-size: 1.1em;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(71, 140, 106, 0.3);
+    cursor: pointer;
+    user-select: none;
+}
+
+.btn:hover {
+    background: var(--accent-2);
+    color: #1E201E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(71, 140, 106, 0.4);
+    border-color: var(--accent);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(71, 140, 106, 0.3);
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(71, 140, 106, 0.3);
+}
+
+/* Register Button Container - Enhanced */
 .register-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 4px 0 0 0;
-    
-    background: #c5d98d;
-    border-radius: 4px;
-    box-shadow: 0 4px 24px rgba(8,203,0,0.12);
-    max-width: 420px;
-    min-width: 260px;
-    width: 40%;
-    height: 30%;
-    transition: box-shadow 0.3s, transform 0.3s;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #c5d98d 0%, #bdcf63 100%);
+    border-radius: 25px;
+    box-shadow: 0 8px 32px rgba(8, 203, 0, 0.2);
+    max-width: 400px;
+    min-width: 280px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
 }
+
+.register-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.register-container:hover::before {
+    left: 100%;
+}
+
+.register-container:hover {
+    box-shadow: 0 12px 40px rgba(8, 203, 0, 0.3);
+    transform: translateY(-3px);
+    border-color: var(--accent);
+}
+
+.register-container .btn {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2em;
+    padding: 18px 36px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(71, 140, 106, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.register-container .btn:hover {
+    background: var(--accent-2);
+    color: #1E201E;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(71, 140, 106, 0.5);
+}
+
+/* Track Button Styling */
+.track-btn {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 28px;
+    background: #08CB00;
+    color: #222;
+    font-weight: bold;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.1em;
+    border: 2px solid #08CB00;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(8, 203, 0, 0.3);
+}
+
+.track-btn:hover {
+    background: #556B2F;
+    color: #fff;
+    border-color: #556B2F;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(8, 203, 0, 0.4);
+}
+
+.track-btn:active {
+    transform: translateY(0);
+}
+
+/* Blur Card Button Styling */
+.blur-card .btn {
+    font-size: 0.95em;
+    padding: 8px 20px;
+    border-radius: 12px;
+    background: #478c6a;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(8, 203, 0, 0.2);
+    border: 2px solid transparent;
+}
+
+.blur-card .btn:hover {
+    background: #bdcf63;
+    color: #222;
+    border-color: #478c6a;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(8, 203, 0, 0.3);
+}
+
+/* Custom styling for "Click here" buttons on homepage */
+.btn-click-here {
+    background: #08CB00 !important;
+    color: #1E201E !important;
+    border: 1px solid #08CB00 !important;
+    margin-top: 8px;
+    padding: 10px 16px;
+    pointer-events: auto;
+    position: relative;
+    z-index: 1;
+    transition: background-color .3s ease;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+}
+.btn-click-here:hover {
+    background: #556B2F !important;
+    color: #fff !important;
+    border-color: #556B2F !important;
+}
+
 :root {
     /* Theme palette */
     --c1: #ffffff; /* 40% */
@@ -134,49 +278,31 @@ button, .btn { will-change: transform; }
 .custom-nav .nav-link:hover, .custom-nav .nav-link:focus { color: #bfe79f !important; }
 .custom-nav .navbar-toggler { border: 2px solid #000; box-shadow: inset 0 0 0 2px rgba(0,0,0,.35); }
 
+/* Hero section styling */
 .hero {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     text-align: center;
-    flex-direction: column;
-    padding: 1px 20px;
-    animation: fadeIn 1.5s ease-in-out;
+    padding: 100px 20px 60px; /* Increased top padding for navigation bar */
+    max-width: 900px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
 }
 
-/* Header logo row */
-.logo-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin: 14px 0 0;
-    flex-wrap: wrap;
-}
-.logo-row img {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    max-height: 80px;
-    object-fit: contain;
-    padding: 8px;
-}
-
-/* brand strip variant used on homepage header */
-/* .brand-strip { position: sticky; top: 0; display:flex; justify-content:center; align-items:center; gap:16px; margin: 8px auto 2px; width:100%; max-width:980px; flex-wrap: nowrap; padding: 0 12px; } */
+/* Brand strip styling for header */
 .brand-strip {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 16px;
-    padding: 8px 12px;
-    background-color: white; /* Ensures solid background */
-    z-index: 1050;
-    margin-left: 2%;
+    padding: 20px 12px;
+    margin: 0 auto 50px; /* Increased bottom margin to prevent overlap */
+    max-width: 980px;
+    flex-wrap: nowrap;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative; /* Ensure proper positioning */
+    z-index: 1;
 }
 
 .brand-strip img {
@@ -189,12 +315,34 @@ button, .btn { will-change: transform; }
     background: transparent;
 }
 
-.brand-strip img.no-bg,
-.image-row img.no-bg {
+.brand-strip img.no-bg {
     background: transparent;
     box-shadow: none;
     padding: 0;
     border-radius: 8px;
+}
+
+/* Hackathon title section */
+.hackathon-title-section {
+    margin-bottom: 30px;
+    margin-top: 20px; /* Added top margin for extra separation */
+    position: relative;
+    z-index: 1;
+}
+
+.hackathon-title-section .title {
+    margin-bottom: 15px;
+    margin-top: 0; /* Ensure no top margin */
+}
+
+.hackathon-title-section .subtitle {
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.hackathon-title-section .date {
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 .countdown {
@@ -242,46 +390,6 @@ button, .btn { will-change: transform; }
     margin: 20px 0;
     font-size: 1.4em;
     font-style: italic;
-}
-
-.btn {
-    display: inline-block;
-    padding: 14px 28px;
-    background: var(--accent);
-    color: #1E201E;
-    font-weight: bold;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: 0.3s;
-    pointer-events: auto;
-    position: relative;
-    z-index: 1;
-}
-.btn:hover {
-    background: var(--accent-2);
-    color: #f1ae4a;
-}
-
-/* Custom styling for "Click here" buttons on homepage */
-.btn-click-here {
-    background: #08CB00 !important;
-    color: #1E201E !important;
-    border: 1px solid #08CB00 !important;
-    margin-top: 8px;
-    padding: 10px 16px;
-    pointer-events: auto;
-    position: relative;
-    z-index: 1;
-    transition: background-color .3s ease;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-}
-.btn-click-here:hover {
-    background: #556B2F !important;
-    color: #fff !important;
-    border-color: #556B2F !important;
 }
 
 section {
@@ -483,27 +591,6 @@ footer {
 .upload-sub { color: var(--text-soft); font-size: 0.85em; margin-top: 4px; }
 .upload-file-name { margin-top: 8px; color: var(--text-soft); font-style: italic; }
 
-
-.register-container:hover {
-  box-shadow: 0 8px 32px rgba(8,203,0,0.22);
-  transform: scale(1.03);
-}
-
-/* Responsive styles for .register-container */
-@media (max-width: 600px) {
-  .register-container {
-    max-width: 98vw;
-    min-width: 0;
-    padding: 16px 8px;
-    border-radius: 16px;
-  }
-  .register-container a.btn {
-    font-size: 1em;
-    padding: 30px 25px;
-    margin: 0px 0;
-  }
-}
-
 @keyframes glow {
     from { text-shadow: 0 0 10px var(--accent); }
     to { text-shadow: 0 0 20px var(--accent-2); }
@@ -557,20 +644,6 @@ footer {
     margin-bottom: 0;
 }
 
-.blur-card .btn {
-    font-size: 0.95em;
-    padding: 6px 18px;
-    border-radius: 12px;
-    background: #478c6a;
-    color: #fff;
-    font-weight: 600;
-    box-shadow: 0 2px 8px rgba(8,203,0,0.08);
-}
-.blur-card .btn:hover {
-    background: #bdcf63;
-    color: #222;
-}
-
 .blur-card .card-body {
     background: rgba(255,255,255,0.32);
     border-radius: 12px;
@@ -612,5 +685,46 @@ footer {
     }
     .blur-card .card-body {
         padding: 10px 4px;
+    }
+}
+
+/* Responsive Button Adjustments */
+@media (max-width: 768px) {
+    .btn {
+        padding: 14px 28px;
+        font-size: 1em;
+    }
+    
+    .register-container {
+        max-width: 90vw;
+        min-width: 250px;
+        padding: 16px;
+    }
+    
+    .register-container .btn {
+        padding: 16px 32px;
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        padding: 12px 24px;
+        font-size: 0.95em;
+    }
+    
+    .register-container {
+        padding: 14px;
+        border-radius: 20px;
+    }
+    
+    .register-container .btn {
+        padding: 14px 28px;
+        font-size: 1em;
+    }
+    
+    .track-btn {
+        padding: 10px 24px;
+        font-size: 1em;
     }
 }

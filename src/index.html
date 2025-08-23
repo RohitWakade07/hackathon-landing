@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VIT Pune Hackathon 2025</title>
+    <title>AgriAi Hackathon 2025</title>
     <link rel="stylesheet" href="style.css" />
 
     <!-- Bootstrap 4 CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
@@ -17,6 +19,39 @@
         .brand-strip img:first-child {
             padding: 0 !important;
             margin: 0 !important;
+        }
+
+        /* Animated Tagline */
+        .tagline-container {
+            text-align: center;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .main-tagline {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #2c5f2d;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 1s ease-out 0.5s forwards;
+        }
+
+        .tagline-subtitle {
+            font-size: 1.2rem;
+            color: #4a7c59;
+            margin: 10px 0 0 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInUp 1s ease-out 0.8s forwards;
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Click here button styles for track cards */
@@ -39,99 +74,140 @@
             color: #fff;
         }
 
-        .pos-f-t {
-            margin-bottom: 0;
+        /* Responsive adjustments */
+        @media (max-width: 991px) {
+            .main-tagline {
+                font-size: 1.5rem;
+            }
+            
+            .tagline-subtitle {
+                font-size: 1rem;
+            }
         }
 
-        .navbar-dark {
-            background: #222 !important;
+        /* Navigation drawer styles matching FAQ page */
+        .pos-f-t { 
+            margin-bottom: 0; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1050;
         }
-
-        .bg-dark {
-            background: #222 !important;
+        
+        .navbar-dark { 
+            background: #222 !important; 
         }
-
-        .navbar-toggler {
-            border-color: #fff;
+        
+        .bg-dark { 
+            background: #222 !important; 
         }
-
+        
+        .navbar-toggler { 
+            border-color: #fff; 
+        }
+        
         .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255,255,255,1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E3C/svg%3E");
         }
-
+        
         .drawer-links a {
-            color: #08CB00 !important;
+            color: #00ff00 !important;
             background: transparent !important;
             font-weight: 600;
             font-size: 1.1em;
             letter-spacing: 0.5px;
             border-radius: 6px;
-            padding: 6px 12px;
+            padding: 8px 16px;
             text-decoration: none;
             display: block;
             transition: none;
+            margin-bottom: 8px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-
-        /* Remove hover effect, keep green color fixed */
+        
         .drawer-links a:hover {
-            color: #08CB00 !important;
+            color: #00ff00 !important;
             background: transparent !important;
         }
-
+        
         .drawer-title {
-            color: #08CB00 !important;
+            color: #00ff00 !important;
             font-weight: 700;
-            font-size: 1.3em;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
-        /* Add container to nav section for better layout */
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 16px;
+        /* Enhanced dropdown styling */
+        .collapse#navbarToggleExternalContent {
+            background: #222 !important;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            width: 100%;
+        }
+
+        .drawer-links {
+            padding: 0;
+            margin: 0;
+        }
+
+        .drawer-links a:last-child {
+            margin-bottom: 0;
         }
     </style>
 </head>
 
 <body>
-    <div class="nav-container">
-        <nav class="navbar navbar-dark bg-dark" style="z-index:1060;">
-            <!-- Removed navbar-brand drawer-title -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDrawer" aria-controls="navbarDrawer" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </nav>
-        <div class="collapse bg-dark" id="navbarDrawer" style="position:fixed;top:56px;left:0;right:0;z-index:1059;">
-            <div class="p-4">
+    <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+            <div class="bg-dark p-4">
+                <h4 class="drawer-title">AgriAi Hackathon 2025</h4>
                 <div class="drawer-links">
-                    <a href="index.html" class="mb-2">Home</a>
-                    <a href="#about" class="mb-2">About</a>
-                    <a href="FAQ.html" class="mb-2">FAQ</a>
-                    <a href="problems.html" class="mb-2">Problems</a>
+                    <a href="index.html">Home</a>
+                    <a href="#about">About</a>
+                    <a href="FAQ.html">FAQ</a>
+                    <a href="problems.html">Problems</a>
                     <a href="#contact">Contact Us</a>
                     <a href="team.html">Organizers</a>
                 </div>
             </div>
         </div>
+        <nav class="navbar navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </div>
+
+    <header class="hero" id="home">
         <div class="brand-strip">
             <img class="no-bg" src="images/clg_logo.jpg" alt="College Logo" />
             <img src="images/DSSA_VIT.jpg" alt="DSSA VIT" />
         </div>
-    </div>
-    <div class="navbar-spacer"></div>
-    <canvas id="bgCanvas"></canvas>
-
-    <header class="hero">
-        <h1 class="title">VIT Pune Hackathon 2025</h1>
-        <p class="subtitle">In association with <strong>Agharkar Research Institute (ARI)</strong></p>
-        <p class="date">Starts 29 August 2025 • 36 hours • VIT Pune Campus</p>
+        
+        <div class="hackathon-title-section">
+            <h1 class="title">AgriAi Hackathon 2025</h1>
+            <p class="subtitle">In association with <strong>Agharkar Research Institute (ARI)</strong></p>
+            <p class="date">Starts 29 August 2025 • 36 hours • VIT Pune Campus</p>
+        </div>
+        
+        <!-- Animated Tagline -->
+        <div class="tagline-container">
+            <h2 class="main-tagline">"Where Young Minds Cultivate Future Farms"</h2>
+        </div>
+        
         <div id="countdown" class="countdown" aria-live="polite">
             <div><span id="cd-days">--</span><label>Days</label></div>
             <div><span id="cd-hours">--</span><label>Hours</label></div>
             <div><span id="cd-mins">--</span><label>Minutes</label></div>
             <div><span id="cd-secs">--</span><label>Seconds</label></div>
         </div>
-        <p class="tagline">Innovate. Integrate. Inspire.</p>
+        
         <div class="register-container">
             <a href="#register" class="btn">Register Now</a>
         </div>
@@ -140,7 +216,7 @@
     <section id="about">
         <h2 class="section-heading">About the Hackathon</h2>
         <p>
-            VIT Pune Hackathon 2025 brings together students, researchers, and professionals to tackle
+            AgriAi Hackathon 2025 brings together students, researchers, and professionals to tackle
             real-world challenges with <strong>Artificial Intelligence</strong> and modern engineering.
             In collaboration with <strong>ARI</strong>, this edition features two focused tracks—designed
             to meet participants where they are and help them build impactful solutions.
@@ -329,8 +405,8 @@
         <p id="msg"></p>
     </section>
 
-    <footer>
-        <p>© 2025 VIT Pune Hackathon · In association with ARI</p>
+    <footer id="contact">
+        <p>© 2025 AgriAi Hackathon 2025 · In association with ARI</p>
     </footer>
 
 
